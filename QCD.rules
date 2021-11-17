@@ -1,0 +1,210 @@
+% propagators (QCD)
+ [ gluon, gluon, +, notadpole ]
+ [ ghost, aghost, -, notadpole ]
+ [ quark, aquark, - ]
+ [ quark2, aquark2, - ]
+ [ anchor, anchor, +, external ]
+ [ anchor2, anchor2, +, external ]
+ [ src, src, +, external ]
+ [ bgf, bgf, +, external ]
+ [ mediator, mediator, + ]
+
+
+% pure gauge vertices (QCD)
+ [ gluon, gluon, gluon; med = '0']
+ [ gluon, gluon, bgf; med = '0']
+ [ gluon, bgf, bgf; med = '0']
+ [ bgf, bgf, bgf; med = '0']
+ [ gluon, gluon, gluon, gluon; med = '0']
+ [ gluon, gluon, gluon, bgf; med = '0']
+ [ gluon, gluon, bgf, bgf; med = '0']
+ [ gluon, bgf, bgf, bgf; med = '0']
+ [ bgf, bgf, bgf, bgf; med = '0']
+
+ [ aghost, ghost, gluon; med = '0']
+ [ aghost, ghost, bgf; med = '0']
+
+ [ aghost, ghost, gluon, bgf; med = '0']
+ [ aghost, ghost, bgf, bgf; med = '0']
+ 
+% fermionic vertices (QCD)
+ [ aquark, quark, gluon; med = '0']
+ [ aquark, quark, bgf; med = '0']
+ [ aquark2, quark2, gluon; med = '0']
+ [ aquark2, quark2, bgf; med = '0']
+ 
+%% operators for the effective action (up to mass-dimension 6)
+
+% gauge vertices (eff. th., mass dim. 6)
+ [ gluon, gluon, anchor; med = '0']
+ [ gluon, bgf, anchor; med = '0']
+ [ bgf, bgf, anchor; med = '0']
+
+ [ gluon, gluon, gluon, anchor; med = '0']
+ [ gluon, gluon, bgf, anchor; med = '0']
+ [ gluon, bgf, bgf, anchor; med = '0']
+ [ bgf, bgf, bgf, anchor; med = '0']
+
+ [ gluon, gluon, gluon, gluon, anchor; med = '0']
+ [ gluon, gluon, gluon, bgf, anchor; med = '0']
+ [ gluon, gluon, bgf, bgf, anchor; med = '0']
+ [ gluon, bgf, bgf, bgf, anchor; med = '0']
+
+ [ gluon, gluon, gluon, gluon, gluon, anchor; med = '0']
+ [ gluon, gluon, gluon, gluon, bgf, anchor; med = '0']
+ [ gluon, gluon, gluon, bgf, bgf, anchor; med = '0']
+ [ gluon, gluon, bgf, bgf, bgf, anchor; med = '0']
+
+ [ gluon, gluon, gluon, gluon, gluon, gluon, anchor; med = '0']
+ [ gluon, gluon, gluon, gluon, gluon, bgf, anchor; med = '0']
+ [ gluon, gluon, gluon, gluon, bgf, bgf, anchor; med = '0']
+ [ gluon, gluon, gluon, bgf, bgf, bgf, anchor; med = '0']
+% and so on...
+
+% ferm. vertices (eff. th.)
+ [ aquark, quark, anchor; med = '0']
+
+ [ aquark, quark, gluon, anchor; med = '0']
+ [ aquark, quark, bgf, anchor; med = '0']
+
+ [ aquark, quark, gluon, gluon, anchor; med = '0']
+ [ aquark, quark, gluon, bgf, anchor; med = '0']
+ [ aquark, quark, bgf, bgf, anchor; med = '0']
+
+ [ aquark, quark, gluon, gluon, gluon, anchor; med = '0']
+ [ aquark, quark, gluon, gluon, bgf, anchor; med = '0']
+ [ aquark, quark, gluon, bgf, bgf, anchor; med = '0']
+ [ aquark, quark, bgf, bgf, bgf, anchor; med = '0']
+
+ [ aquark2, quark2, anchor; med = '0']
+
+ [ aquark2, quark2, gluon, anchor; med = '0']
+ [ aquark2, quark2, bgf, anchor; med = '0']
+
+ [ aquark2, quark2, gluon, gluon, anchor; med = '0']
+ [ aquark2, quark2, gluon, bgf, anchor; med = '0']
+ [ aquark2, quark2, bgf, bgf, anchor; med = '0']
+
+ [ aquark2, quark2, gluon, gluon, gluon, anchor; med = '0']
+ [ aquark2, quark2, gluon, gluon, bgf, anchor; med = '0']
+ [ aquark2, quark2, gluon, bgf, bgf, anchor; med = '0']
+ [ aquark2, quark2, bgf, bgf, bgf, anchor; med = '0']
+
+% 4-fermion vertex
+ [ aquark, quark, aquark2, quark2, anchor; med = '0']
+ [ aquark, quark, mediator; med = '-1']
+ [ mediator, mediator, anchor; med = '2']
+
+% repeat with anchor -> anchor2 to allow simpler double insertions
+% gauge vertices (eff. th., mass dim. 6)
+ [ gluon, gluon, anchor2; med = '0']
+ [ gluon, bgf, anchor2; med = '0']
+ [ bgf, bgf, anchor2; med = '0']
+
+ [ gluon, gluon, gluon, anchor2; med = '0']
+ [ gluon, gluon, bgf, anchor2; med = '0']
+ [ gluon, bgf, bgf, anchor2; med = '0']
+ [ bgf, bgf, bgf, anchor2; med = '0']
+
+ [ gluon, gluon, gluon, gluon, anchor2; med = '0']
+ [ gluon, gluon, gluon, bgf, anchor2; med = '0']
+ [ gluon, gluon, bgf, bgf, anchor2; med = '0']
+ [ gluon, bgf, bgf, bgf, anchor2; med = '0']
+
+ [ gluon, gluon, gluon, gluon, gluon, anchor2; med = '0']
+ [ gluon, gluon, gluon, gluon, bgf, anchor2; med = '0']
+ [ gluon, gluon, gluon, bgf, bgf, anchor2; med = '0']
+ [ gluon, gluon, bgf, bgf, bgf, anchor2; med = '0']
+
+ [ gluon, gluon, gluon, gluon, gluon, gluon, anchor2; med = '0']
+ [ gluon, gluon, gluon, gluon, gluon, bgf, anchor2; med = '0']
+ [ gluon, gluon, gluon, gluon, bgf, bgf, anchor2; med = '0']
+ [ gluon, gluon, gluon, bgf, bgf, bgf, anchor2; med = '0']
+% and so on...
+
+% ferm. vertices (eff. th.)
+ [ aquark, quark, anchor2; med = '0']
+
+ [ aquark, quark, gluon, anchor2; med = '0']
+ [ aquark, quark, bgf, anchor2; med = '0']
+
+ [ aquark, quark, gluon, gluon, anchor2; med = '0']
+ [ aquark, quark, gluon, bgf, anchor2; med = '0']
+ [ aquark, quark, bgf, bgf, anchor2; med = '0']
+
+ [ aquark, quark, gluon, gluon, gluon, anchor2; med = '0']
+ [ aquark, quark, gluon, gluon, bgf, anchor2; med = '0']
+ [ aquark, quark, gluon, bgf, bgf, anchor2; med = '0']
+ [ aquark, quark, bgf, bgf, bgf, anchor2; med = '0']
+
+ [ aquark2, quark2, anchor2; med = '0']
+
+ [ aquark2, quark2, gluon, anchor2; med = '0']
+ [ aquark2, quark2, bgf, anchor2; med = '0']
+
+ [ aquark2, quark2, gluon, gluon, anchor2; med = '0']
+ [ aquark2, quark2, gluon, bgf, anchor2; med = '0']
+ [ aquark2, quark2, bgf, bgf, anchor2; med = '0']
+
+ [ aquark2, quark2, gluon, gluon, gluon, anchor2; med = '0']
+ [ aquark2, quark2, gluon, gluon, bgf, anchor2; med = '0']
+ [ aquark2, quark2, gluon, bgf, bgf, anchor2; med = '0']
+ [ aquark2, quark2, bgf, bgf, bgf, anchor2; med = '0']
+
+% 4-fermion vertex
+ [ aquark, quark, aquark2, quark2, anchor2; med = '0']
+ [ aquark, quark, mediator; med = '-1']
+ [ mediator, mediator, anchor2; med = '2']
+ 
+%% local fields
+
+% gauge vertices (up to mass dim. 5)
+ [ gluon, gluon, src; med = '0']
+ [ gluon, bgf, src; med = '0']
+ [ bgf, bgf, src; med = '0']
+
+ [ gluon, gluon, gluon, src; med = '0']
+ [ gluon, gluon, bgf, src; med = '0']
+ [ gluon, bgf, bgf, src; med = '0']
+ [ bgf, bgf, bgf, src; med = '0']
+
+ [ gluon, gluon, gluon, gluon, src; med = '0']
+ [ gluon, gluon, gluon, bgf, src; med = '0']
+ [ gluon, gluon, bgf, bgf, src; med = '0']
+ [ gluon, bgf, bgf, bgf, src; med = '0']
+
+ [ gluon, gluon, gluon, gluon, gluon, src; med = '0']
+ [ gluon, gluon, gluon, gluon, bgf, src; med = '0']
+ [ gluon, gluon, gluon, bgf, bgf, src; med = '0']
+ [ gluon, gluon, bgf, bgf, bgf, src; med = '0']
+% and so on...
+
+% ferm. vertices (up to mass dim. 5)
+ [ aquark, quark, src; med = '0']
+
+ [ aquark, quark, gluon, src; med = '0']
+ [ aquark, quark, bgf, src; med = '0']
+
+ [ aquark, quark, gluon, gluon, src; med = '0']
+ [ aquark, quark, gluon, bgf, src; med = '0']
+ [ aquark, quark, bgf, bgf, src; med = '0']
+
+ [ aquark, quark, gluon, gluon, gluon, src; med = '0']
+ [ aquark, quark, gluon, gluon, bgf, src; med = '0']
+ [ aquark, quark, gluon, bgf, bgf, src; med = '0']
+ [ aquark, quark, bgf, bgf, bgf, src; med = '0']
+ 
+ [ aquark, quark2, src; med = '0']
+
+ [ aquark, quark2, gluon, src; med = '0']
+ [ aquark, quark2, bgf, src; med = '0']
+
+ [ aquark, quark2, gluon, gluon, src; med = '0']
+ [ aquark, quark2, gluon, bgf, src; med = '0']
+ [ aquark, quark2, bgf, bgf, src; med = '0']
+
+ [ aquark, quark2, gluon, gluon, gluon, src; med = '0']
+ [ aquark, quark2, gluon, gluon, bgf, src; med = '0']
+ [ aquark, quark2, gluon, bgf, bgf, src; med = '0']
+ [ aquark, quark2, bgf, bgf, bgf, src; med = '0']
+
