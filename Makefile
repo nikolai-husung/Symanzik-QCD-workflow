@@ -198,11 +198,11 @@ $(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(fo
 
 # allows to choose the desired n-point function according to name and then
 # generate everything according to dependencies
-$(GRAPHSp):     %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs)))
-$(GRAPHSo):     %: graphs/%.1PI $(addprefix results/O/%/, $(addsuffix _none.1PI, $(Ops)))
-$(GRAPHSoo):    %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))
-$(GRAPHSop):    %: graphs/%.1PI $(foreach _p, $(oPsContactP), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops))))
 $(GRAPHSp_TL):  %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs_TL)))
 $(GRAPHSo_TL):  %: graphs/%.1PI $(addprefix results/O/%/none_, $(addsuffix .1PI, $(Ops_TL)))
 $(GRAPHSoo_TL): %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))
 $(GRAPHSop_TL): %: graphs/%.1PI $(foreach _p, $(oPs_TL), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops_TL))))
+$(GRAPHSp):     %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs))) $(addsuffix _TL, %)
+$(GRAPHSo):     %: graphs/%.1PI $(addprefix results/O/%/, $(addsuffix _none.1PI, $(Ops)))) $(addsuffix _TL, %)
+$(GRAPHSoo):    %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))) $(addsuffix _TL, %)
+$(GRAPHSop):    %: graphs/%.1PI $(foreach _p, $(oPsContactP), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops))))) $(addsuffix _TL, %)
