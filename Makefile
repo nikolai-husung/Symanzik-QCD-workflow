@@ -1,8 +1,9 @@
 # Usage:
-#   make onepi    => generate 1-loop 1PI $(GRAPHS) with QGRAF and translate into final template
+#   make onepi
+#   => generate 1-loop 1PI $(GRAPHS) with QGRAF and translate into final template
 #
-#   make observable{$(GRAPHS) $(GRAPHSp)}             => compute 1PI 1-loop graphs for given observable
-#                                                        IF $(op) is set, only this operator will be computed
+#   make observable{$(GRAPHS) $(GRAPHSp)}
+#   => compute 1PI 1-loop graphs for given observable
 
 
 # (system specific) parameters
@@ -11,7 +12,6 @@ FORM_PATH   = YMeuclFlavours
 QGRAF       = ~/QGRAF/qgraf
 
 FLAG        =  -D ALG=1 -D UVonly=1
-# Note that at some point we will introduce operators at non-zero momentum, i.e. w/o "-D QCD=1"
 MODEL       = QCD
 
 # do not change
@@ -91,6 +91,7 @@ GRAPHS   = B2 B3 F2 F2B
 
 GRAPHSp  = $(addsuffix P, $(GRAPHS) FF FFB) P
 GRAPHSo  = $(addsuffix O, $(GRAPHS) F4 F2F2)
+GRAPHSoo = $(addsuffix O, $(GRAPHSo))
 GRAPHSop = $(addsuffix OP, $(GRAPHS) FF FFB) OP
 
 # the selection between flavour non-singlet and singlet is currently based on
@@ -100,6 +101,7 @@ GRAPHSop = $(addsuffix OP, $(GRAPHS) FF FFB) OP
 
 GRAPHSp_TL  = $(addsuffix P_TL, $(GRAPHS) FF FFB)
 GRAPHSo_TL  = $(addsuffix O_TL, $(GRAPHS) F4 F2F2)
+GRAPHSoo_TL = $(addsuffix OO_TL, $(GRAPHS) F4 F2F2)
 GRAPHSop_TL = $(addsuffix OP_TL, $(GRAPHS) FF FFB)
 
 
@@ -113,11 +115,13 @@ _flag = $(FLAG)
 # Setup required directories if they are missing.
 $(shell mkdir -p $(addprefix P/, $(GRAPHSp) $(GRAPHSp_TL)))
 $(shell mkdir -p $(addprefix O/, $(GRAPHSo) $(GRAPHSo_TL)))
+$(shell mkdir -p $(addprefix OO/, $(GRAPHSoo) $(GRAPHSoo_TL)))
 $(shell mkdir -p $(addprefix OP/, $(GRAPHSop) $(GRAPHSop_TL)))
 $(shell mkdir -p results graphs)
 $(shell cd results; \
    mkdir -p $(addprefix P/, $(GRAPHSp) $(GRAPHSp_TL)); \
    mkdir -p $(addprefix O/, $(GRAPHSo) $(GRAPHSo_TL)); \
+   mkdir -p $(addprefix OO/, $(GRAPHSoo) $(GRAPHSoo_TL)); \
    mkdir -p $(addprefix OP/,$(GRAPHSop) $(GRAPHSop_TL)); \
    cd ..;)
 
@@ -128,8 +132,39 @@ graphs/%.1PI: $(MODEL).rules
 		python3 $(GTOOL) $(MODEL) $(basename $(notdir $@)) 1 1 "$(addsuffix /$@, . )"; \
 	fi;
 
-# hack to implement dependence of up to two operator insertions (the second
+# hacks to implement dependence of up to two operator insertions (the second
 # insertion is supposed to be either from the action or form of a local field)
+define crossdepResTL
+$(addprefix $(addprefix results/, $(addsuffix /, $(1) )), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))): $(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3)))))
+	cd $$(dir $$@); \
+	echo $$(dir $$@);\
+	$(FORM) -p ../../../$(FORM_PATH) -D cnt=$$(firstword $$(subst /, ,$(1))) -D name=$$(firstword $$(subst _, ,$$(lastword $$(subst /, ,$(1))))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) $(_flag) simplify_TL; \
+	cd ../../..
+endef
+
+define crossdepRes
+$(addprefix $(addprefix results/, $(addsuffix /, $(1) )), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))): $(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))) $(addprefix $(addsuffix _TL/, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3)))))
+	cd $$(dir $$@); \
+	$(FORM) -p ../../../$(FORM_PATH) -D cnt=$$(firstword $$(subst /, ,$(1))) -D name=$$(lastword $$(subst /, ,$(1))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) $(_flag) simplify; \
+	cd ../../..
+endef
+
+
+$(foreach graph, $(addprefix P/, $(GRAPHSp_TL)), $(foreach _op, $(oPs_TL), $(eval $(call crossdepResTL, $(graph), none, $(_op) ))))
+$(foreach graph, $(addprefix O/, $(GRAPHSo_TL)), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), $(_op), none ))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo_TL)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdepResTL, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPs_TL), $(eval $(call crossdepResTL, $(graph), $(_o), $(_p) )))))
+
+$(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(oPs), $(eval $(call crossdepRes, $(graph), none, $(_op) ))))
+$(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), $(_op), none ))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops), $(foreach _p, $(oPsContactP), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
+
+####
+# join computation and simplifaction eventually ????
+# - no add. results folder
+# - move fundamental field and coupling renormalisation to Mathematica
+####
 define crossdep1PI
 $(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))):
 	cd $$(dir $$@); \
@@ -153,15 +188,21 @@ endef
 
 $(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(oPs), $(eval $(call crossdep1PI, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdep1PI, $(graph), $(_op), none ))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
 $(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops), $(foreach _p, $(oPsContactP), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
 
 $(foreach graph, $(addprefix P/, $(GRAPHSp_TL)), $(foreach _op, $(oPs_TL), $(eval $(call crossdep1PI_TL, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo_TL)), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), $(_op), none ))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo_TL)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdep1PI_TL, $(graph), $(_o), $(_p) )))))
 $(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPs_TL), $(eval $(call crossdep1PI_TL, $(graph), $(_o), $(_p) )))))
 
-$(GRAPHSp):     %: graphs/%.1PI $(addprefix P/%/none_, $(addsuffix .1PI, $(oPs)))
-$(GRAPHSo):     %: graphs/%.1PI $(addprefix O/%/, $(addsuffix _none.1PI, $(Ops)))
-$(GRAPHSop):    %: graphs/%.1PI $(foreach _p, $(oPsContactP), $(addprefix OP/%/, $(addsuffix _$(_p).1PI, $(Ops))))
-$(GRAPHSp_TL):  %: graphs/%.1PI $(addprefix P/%/none_, $(addsuffix .1PI, $(oPs_TL)))
-$(GRAPHSo_TL):  %: graphs/%.1PI $(addprefix O/%/, $(addsuffix _none.1PI, $(Ops_TL)))
-$(GRAPHSop_TL): %: graphs/%.1PI $(foreach _p, $(oPs_TL), $(addprefix OP/%/, $(addsuffix _$(_p).1PI, $(Ops_TL))))
+# allows to choose the desired n-point function according to name and then
+# generate everything according to dependencies
+$(GRAPHSp):     %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs)))
+$(GRAPHSo):     %: graphs/%.1PI $(addprefix results/O/%/, $(addsuffix _none.1PI, $(Ops)))
+$(GRAPHSoo):    %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))
+$(GRAPHSop):    %: graphs/%.1PI $(foreach _p, $(oPsContactP), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops))))
+$(GRAPHSp_TL):  %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs_TL)))
+$(GRAPHSo_TL):  %: graphs/%.1PI $(addprefix results/O/%/none_, $(addsuffix .1PI, $(Ops_TL)))
+$(GRAPHSoo_TL): %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))
+$(GRAPHSop_TL): %: graphs/%.1PI $(foreach _p, $(oPs_TL), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops_TL))))

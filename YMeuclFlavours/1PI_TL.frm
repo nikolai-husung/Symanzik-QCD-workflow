@@ -64,5 +64,5 @@ id DenomConst(imp?,Omega?,n?) = DenomConst(imp.imp+Omega,n);
 
 
 .sort;
-#write <`op'.1PI> "(%E)", diagrams;
+#write <`o'_`o2'.1PI> "(%E)", diagrams;
 .end;
