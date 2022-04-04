@@ -51,10 +51,12 @@ Vector t,u,v,w;
 ** Loop momentum and special momentum masking ZERO, since 0 is interpreted as a Symbol.
 Vector k1,ZERO;
 
-** Additional spacetime indices - kappa,lambda are used for tensor structure of
-** local fields => need generalisation for multiple local fields!
 Index alpha,beta,gamma,delta,mu,nu,rho,sigma;
-Index kappa,lambda;
+
+** Additional spacetime indices kappa, lambda of local fields are implemented
+** via eigenvectors kappahat, lambdahat respectively.
+** => need generalisation for multiple local fields!
+Vector kappahat,lambdahat;
 
 ** Additional colour indices
 ** CAVEAT: adjoint and fundamental representation are not handled

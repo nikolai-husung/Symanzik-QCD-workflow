@@ -8,8 +8,8 @@
 
 #do dummy=1,1
    id,once vert(aquark(p?,alpha?,cf1?,fl1?),`Q'(q?,beta?,cf2?,fl2?),src(?args)) =
-      + i_*(p(kappa)+q(kappa))*FL(fl1,lambda,fl2)*d_(cf1,cf2)*OPF(aquark,`Q',fl1)
-      - i_*(p(lambda)+q(lambda))*FL(fl1,kappa,fl2)*d_(cf1,cf2)*OPF(aquark,`Q',fl1);
+      + i_*(p(kappahat)+q(kappahat))*FL(fl1,lambdahat,fl2)*d_(cf1,cf2)*OPF(aquark,`Q',fl1)
+      - i_*(p(lambdahat)+q(lambdahat))*FL(fl1,kappahat,fl2)*d_(cf1,cf2)*OPF(aquark,`Q',fl1);
    if(match(vert(aquark(?args1),`Q'(?args2),src(?args3)))>0) redefine dummy "0";
    .sort;
 #enddo
