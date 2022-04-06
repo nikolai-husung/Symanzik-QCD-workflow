@@ -83,6 +83,10 @@ id ext(field?!{aquark,quark,aquark2,quark2},?args) = 1;
 
 
 #include feynmanRules/`o'.h
+if(match(vert(?args,anchor(?args2)))) discard;
+argument vert;
+   id anchor2(?args) = anchor(?args);
+endargument;
 #include feynmanRules/`o2'.h
 
 *** Dump all vertices, which do not contribute to operator of interest

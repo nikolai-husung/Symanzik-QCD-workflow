@@ -23,7 +23,9 @@ Local loop =
 ;
 
 Local tl = 
+#if((`name'!="P") && (`name'!="OP"))
 #include ../`cnt'/`name'_TL/`o'_`o2'.1PI
+#endif
 ;
 
 id D = 4;

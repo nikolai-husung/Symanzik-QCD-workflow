@@ -42,7 +42,7 @@ for l in FIELDS:
       lf = "O"
       ocount += 1
       if ocount>1:
-         ifields += str(ocount)
+         ofields += str(ocount)
    elif l=="P":
       ofields += ",src"
       lf = "P"
