@@ -23,13 +23,13 @@ GTOOL       = build_graphs.py
 # CAVEAT: check signs of GammaGamma5 operators!
 P5 = qSigmaFQ \
    qSigmaFtildeQ \
-   qGammaD2lrQ qGammaGamma5FtildeQ\
+   qGammaD2lrQ qGammaGamma5FtildeQ \
    qGammaGamma5D2lrQ qGammaFtildeQ \
-   qSigmaD2lrQ qFQ qGamma5FtildeQ qSigmaDlr2Q qDlDQ
+   qSigmaD2lrQ qFQ qGamma5FtildeQ qSigmaDlr2Q qDlDQ 
 
-P4 = trF2 trFFtilde qDlrQ qGamma5DlrQ qDGammalrQ
+P4 = trF2 trFFtilde qDlrQ qGamma5DlrQ qDGammalrQ 
 
-P3 = S P V A T
+P3 = S P V A T 
 
 dP5 = $(addprefix d2, $(P3)) \
    \
@@ -38,7 +38,7 @@ dP5 = $(addprefix d2, $(P3)) \
    d2AnO4 gradFFtilde divFFtilde dFFtildenO4 \
    d2TnO4 
 
-dP4 = divT gradP gradV
+dP4 = divT gradP gradV 
 
 # EOM vanishing operators -> needed for background field method [D0 = Dslash+m]
 Peom = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ \
@@ -52,19 +52,19 @@ Peom = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ \
 # Operators considered
 OPS_F4 = PsiPsi2 PsiTPsi2 PsiGammaPsi2 PsiGamma5Psi2 PsiGammaTPsi2 \
    PsiGamma5TPsi2 PsiGammaGamma5Psi2 PsiGammaGamma5TPsi2 PsiSigmaPsi2 \
-   PsiSigmaTPsi2
+   PsiSigmaTPsi2 
 
-O6 = DFDF_O4 DFDF PsiGammaD3Psi $(OPS_F4) $(addsuffix n,$(OPS_F4))
+O6 = DFDF_O4 DFDF PsiGammaD3Psi $(OPS_F4) $(addsuffix n,$(OPS_F4)) 
 
-O5 = PsiSigmaFPsi
+O5 = PsiSigmaFPsi 
 
-O4 = F2
+O4 = F2 
 
-O3 = Psi2
+O3 = Psi2 
 
 # EOM vanishing operators [or required building blocks]
 # -> needed for background field method [D0 = Dslash+m]
-Oeom54 = PsiD0Psi PsiD02Psi
+Oeom54 = PsiD0Psi PsiD02Psi 
 
 Oeom6 = DF2_O4 PsiD03Psi PsiGammaDFPsi PsiD2D0Psi Psi[DslashD2]Psi
 
@@ -82,17 +82,17 @@ Ops    = $(O3) $(O4) $(O5) $(O6)
 oPsContactP = $(P3)
 
 # compute contact terms only for mass-dimension 5 operators and below
-OpsContactO = $(O3) $(O4) $(O5) $(Oeom54)
+OpsContactO = $(O3) $(O4) $(O5) $(Oeom54) 
 
 # List of all (currently) computed 1PI graphs, with external fields:
 #   B = background field
 #   F = fermion [=quark]
 #   O = operator in the effective action
 #   P = local field
-GRAPHS   = B2 B3 F2 F2B
+GRAPHS   = B2 F2 F2B 
 
 GRAPHSp  = $(addsuffix P, $(GRAPHS) FF FFB) P
-GRAPHSo  = $(addsuffix O, $(GRAPHS) F4 F2F2)
+GRAPHSo  = $(addsuffix O, $(GRAPHS) B3 F4 F2F2)
 GRAPHSoo = $(addsuffix O, $(GRAPHSo))
 GRAPHSop = $(addsuffix OP, $(GRAPHS) FF FFB) OP
 
@@ -160,13 +160,8 @@ $(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(fo
 $(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(oPs), $(eval $(call crossdepRes, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), $(_op), none ))))
 $(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
-$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops), $(foreach _p, $(oPsContactP), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPsContactP), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
 
-####
-# join computation and simplifaction eventually ????
-# - no add. results folder
-# - move fundamental field and coupling renormalisation to Mathematica
-####
 define crossdep1PI
 $(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))):
 	cd $$(dir $$@); \
@@ -196,15 +191,15 @@ $(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(fo
 $(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(oPs), $(eval $(call crossdep1PI, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdep1PI, $(graph), $(_op), none ))))
 $(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
-$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops), $(foreach _p, $(oPsContactP), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPsContactP), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
 
 # allows to choose the desired n-point function according to name and then
 # generate everything according to dependencies
 $(GRAPHSp_TL):  %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs_TL)))
-$(GRAPHSo_TL):  %: graphs/%.1PI $(addprefix results/O/%/none_, $(addsuffix .1PI, $(Ops_TL)))
-$(GRAPHSoo_TL): %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))
-$(GRAPHSop_TL): %: graphs/%.1PI $(foreach _p, $(oPs_TL), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops_TL))))
+$(GRAPHSo_TL):  %: graphs/%.1PI $(addprefix results/O/%/, $(addsuffix _none.1PI, $(Ops_TL)))
+$(GRAPHSoo_TL): %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(addprefix results/OO/%/, $(_o)_$(_p).1PI)))
+$(GRAPHSop_TL): %: graphs/%.1PI $(foreach _o, $(Ops_TL), $(foreach _p, $(oPs_TL), $(addprefix results/OP/%/, $(_o)_$(_p).1PI)))
 $(GRAPHSp):     %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(oPs))) $(if $(subst P,, %), $(addsuffix _TL, %))
-$(GRAPHSo):     %: graphs/%.1PI $(addprefix results/O/%/, $(addsuffix _none.1PI, $(Ops)))) $(addsuffix _TL, %)
-$(GRAPHSoo):    %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(addprefix results/OO/%/, $(addsuffix _$(_o).1PI, $(OpsContactO))))) $(addsuffix _TL, %)
-$(GRAPHSop):    %: graphs/%.1PI $(foreach _p, $(oPsContactP), $(addprefix results/OP/%/, $(addsuffix _$(_p).1PI, $(Ops))))) $(if $(filter OP, %), $(addsuffix _TL, %))
+$(GRAPHSo):     %: graphs/%.1PI $(foreach _o, $(Ops), $(addprefix results/O/%/, $(addsuffix _none.1PI, $(_o)))) $(addsuffix _TL, %)
+$(GRAPHSoo):    %: graphs/%.1PI $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(addprefix results/OO/%/, $(_o)_$(_p).1PI))) $(if $(filter OO, %), $(addsuffix _TL, %))
+$(GRAPHSop):    %: graphs/%.1PI $(foreach _o, $(Ops_TL), $(foreach _p, $(oPsContactP), $(addprefix results/OP/%/, $(_o)_$(_p).1PI))) $(if $(filter OP, %), $(addsuffix _TL, %))

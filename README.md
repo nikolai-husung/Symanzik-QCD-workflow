@@ -62,25 +62,17 @@ MODEL = QCD
 Eventually the available commands are:
 
 ```bash
-make
-```
-   Generate 1-loop 1PI $(GRAPHSo) with QGRAF and translate into FORM input. Also
-   creates any of the directories needed if they are missing. Both should happen
-   in the other cases, too.
-
-```bash
-make obs{$(GRAPHS) $(GRAPHSo)}
+make obs{$(GRAPHSo) $(GRAPHSp) $(GRAPHSoo) $(GRAPHSop)}
 ```
    Compute 1PI 1-loop graphs in dimensional regularisation for given observable.
    IF $(op) is set, only this operator will be computed. Results are then stored
    in the appropriate folder in GRAPH/op.res.
 
 ```bash
-make obs{$(GRAPHS)_TL $(GRAPHSo)_TL}
+make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
 ```
-   Compute 1PI tree-level graphs for given observable. IF $(op) is set, only
-   this operator will be computed. Results are then stored in the appropriate
-   folder in GRAPH/op.res.
+   Compute 1PI tree-level graphs for given observable. Results of operator op
+   are then stored in the appropriate folder in {O|P|OO|OP}/obs/op.res.
 
 ```bash
 make simplify
@@ -91,13 +83,12 @@ make simplify_TL
    renormalise the external legs and the coupling to 1-loop order. Also
    translates dummy indices and all symbols to be compatible to Mathematica
    syntax. Results are then stored in the appropriate folder in
-   results/GRAPH/op.res .
+   results/{O|P|OO|OP}/GRAPH/op.res .
 
 Once the simplified results have been generated, they can be imported into
 Mathematica using the functions defined in loadOperatorGreensFunctions.nb, such
 that `LOOPvalues` and `TLvalues` holds the results for the graph as specified in
-the call to `generateGF["..."]`. The special cases of F?On and F4On2 require
-additional care. As an example Evaluation_B2O.nb has been added.
+the call to `generateGF["..."]`. As an example Evaluation_B2O.nb has been added.
 
 How to generate Feynman rules
 ------------------------------
@@ -130,4 +121,5 @@ Missing
 * Full results not just UV poles (and choosing between both).
 * Computation of connected graphs (either build from 1PI graphs or
   directly computed) for both UV poles only and full result.
+* Avoid redoing double operator insertions with different ordering.
 * ...
