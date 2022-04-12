@@ -16,15 +16,16 @@ id g_(`fline',`q') = -`psl'*gi_(`fline');
 #endprocedure
 
 #procedure project2Clifford(fline)
+id g5_(`fline') = g_(`fline',sptt{`sptcnt'+5},sptt{`sptcnt'+6},sptt{`sptcnt'+7},sptt{`sptcnt'+8})*e_(sptt{`sptcnt'+5},sptt{`sptcnt'+6},sptt{`sptcnt'+7},sptt{`sptcnt'+8})/fac_(4);
 multiply (
    + gi_(`fline')
-   + g5_(`fline')*GAMMA5(`fline')
+   + g_(`fline',sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4})*GAMMA5(`fline')*e_(sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4})/fac_(4)
    + g_(`fline',sptt`sptcnt')*GAMMA(`fline',sptt`sptcnt')
-   - g_(`fline',5_,sptt`sptcnt')*GAMMA5(`fline',sptt`sptcnt')
+   - g_(`fline',sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4},sptt`sptcnt')*GAMMA5(`fline',sptt`sptcnt')*e_(sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4})/fac_(4)
    - (g_(`fline',sptt`sptcnt',sptt{`sptcnt'+1})-g_(`fline',sptt{`sptcnt'+1},sptt`sptcnt'))*(GAMMA(`fline',sptt`sptcnt',sptt{`sptcnt'+1})-GAMMA(`fline',sptt{`sptcnt'+1},sptt`sptcnt'))/4
    )/4;
-trace4 `fline';
-redefine sptcnt "{`sptcnt'+2}";
+tracen `fline';
+redefine sptcnt "{`sptcnt'+10}";
 .sort;
 
 id GAMMA(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,spt3?,spt4?) = d_(spt3,spt4);

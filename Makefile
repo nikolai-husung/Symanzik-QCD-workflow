@@ -24,7 +24,7 @@ GTOOL       = build_graphs.py
 P5 = qSigmaFQ \
    qSigmaFtildeQ \
    qGammaD2lrQ qGammaGamma5FtildeQ \
-   qGammaGamma5D2lrQ qGammaFtildeQ \
+   qGammaGamma5D2lrQ qGammaFtildeQ DFFtilde DFFtildenO4 \
    qSigmaD2lrQ qFQ qGamma5FtildeQ qSigmaDlr2Q qDlDQ 
 
 P4 = trF2 trFFtilde qDlrQ qGamma5DlrQ qDGammalrQ 
@@ -38,7 +38,7 @@ dP5 = $(addprefix d2, $(P3)) \
    d2AnO4 gradFFtilde divFFtilde dFFtildenO4 \
    d2TnO4 
 
-dP4 = divT gradP gradV 
+dP4 = divT gradP gradV rotA
 
 # EOM vanishing operators -> needed for background field method [D0 = Dslash+m]
 Peom = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ \

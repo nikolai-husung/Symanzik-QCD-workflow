@@ -18,8 +18,13 @@ Local diagrams =
 #call Colours
 .sort;
 
+#do dummy=1,1
+   id,once FL(?args,G5,?args2) = e_(spt`sptcnt',spt{`sptcnt'+1},spt{`sptcnt'+2},spt{`sptcnt'+3})*FL(?args,spt`sptcnt',spt{`sptcnt'+1},spt{`sptcnt'+2},spt{`sptcnt'+3},?args2)/fac_(4);
+   redefine sptcnt "{`sptcnt'+4}";
+   if(match(FL(?args,G5,?args2))) redefine dummy "0";
+   .sort;
+#enddo
 id FL(fl1?,?args,fl2?) = g_(fl1,?args)*FL(fl1,fl2);
-id g_(fl?,G5) = g5_(fl);
 
 Contract;
 
