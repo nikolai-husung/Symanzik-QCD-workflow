@@ -1,6 +1,8 @@
 import sys,os
 from string import ascii_letters
 
+Nf = 2
+
 MODEL = sys.argv[1]
 
 FIELDS = sys.argv[2]
@@ -145,7 +147,7 @@ for p in parts[1:]:
    partsNew.append(")".join(temp))
 text = "quark(".join(partsNew)
 
-for i in range(fcount-1):
+for i in range(Nf-1):
    parts = text.split("prop(quark%i,"%(i+2))
    partsNew = [parts[0]]
    for p in parts[1:]:

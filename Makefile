@@ -151,15 +151,19 @@ $(addprefix $(addprefix results/, $(addsuffix /, $(1) )), $(addsuffix .1PI, $(ad
 	cd ../../..
 endef
 
+_pos = $(if $(findstring $1,$2),$(call _pos,$1,\
+       $(wordlist 2,$(words $2),$2),x $3),$3)
+pos = $(words $(call _pos,$1,$2))
+
 
 $(foreach graph, $(addprefix P/, $(GRAPHSp_TL)), $(foreach _op, $(oPs_TL), $(eval $(call crossdepResTL, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo_TL)), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), $(_op), none ))))
-$(foreach graph, $(addprefix OO/, $(GRAPHSoo_TL)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdepResTL, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo_TL)), $(foreach _o, $(OpsContactO), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(OpsContactO)), $(OpsContactO)), $(eval $(call crossdepResTL, $(graph), $(_o), $(_p) )))))
 $(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPs_TL), $(eval $(call crossdepResTL, $(graph), $(_o), $(_p) )))))
 
 $(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(oPs), $(eval $(call crossdepRes, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), $(_op), none ))))
-$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(OpsContactO)), $(OpsContactO)), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
 $(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPsContactP), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
 
 define crossdep1PI
@@ -185,12 +189,12 @@ endef
 
 $(foreach graph, $(addprefix P/, $(GRAPHSp_TL)), $(foreach _op, $(oPs_TL), $(eval $(call crossdep1PI_TL, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo_TL)), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), $(_op), none ))))
-$(foreach graph, $(addprefix OO/, $(GRAPHSoo_TL)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdep1PI_TL, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo_TL)), $(foreach _o, $(OpsContactO), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(OpsContactO)), $(OpsContactO)), $(eval $(call crossdep1PI_TL, $(graph), $(_o), $(_p) )))))
 $(foreach graph, $(addprefix OP/, $(GRAPHSop_TL)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPs_TL), $(eval $(call crossdep1PI_TL, $(graph), $(_o), $(_p) )))))
 
 $(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(oPs), $(eval $(call crossdep1PI, $(graph), none, $(_op) ))))
 $(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdep1PI, $(graph), $(_op), none ))))
-$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(OpsContactO), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(OpsContactO), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(OpsContactO)), $(OpsContactO)), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
 $(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops_TL), $(foreach _p, $(oPsContactP), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
 
 # allows to choose the desired n-point function according to name and then
