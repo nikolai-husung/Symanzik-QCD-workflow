@@ -18,6 +18,11 @@ Psibar(fl0,imp0,cf0)*FL(fl0,fl1)*(D0l(imp1,imp2,cf0,cf1)+D0(imp1,imp2,cf0,cf1))*
 *--#] qD02lrQ:
 
 
+*--#[ qSigmaFQ:
+i_*Psibar(fl0,imp0,cf0)*sigma(flc0,spt3,spt4)*F(imp1,imp2,spt0,spt1,col1)*Psi(fl1,imp3,cf3)*TC(col1,cf0,cf3)*FL(fl0,flc0,fl1)*OPF(flc0)*DO4v(spt3,spt0)*DO4v(spt4,spt1)
+*--#] qSigmaFQ:
+
+
 *** pseudo-scalar
 *--#[ qSigmaFtildeQ:
 i_*Psibar(fl0,imp0,cf0)*sigma(flc0,spt3,spt4)*e_(spt5,spt6,spt7,spt8)*F(imp1,imp2,spt0,spt1,col1)*Psi(fl1,imp3,cf3)*TC(col1,cf0,cf3)*FL(fl0,flc0,fl1)*OPF(flc0)*DO4v(spt3,spt5)*DO4v(spt4,spt6)*DO4v(spt0,spt7)*DO4v(spt1,spt8)

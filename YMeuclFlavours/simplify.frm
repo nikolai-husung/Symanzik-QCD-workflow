@@ -23,7 +23,7 @@ Local loop =
 ;
 
 Local tl = 
-#if((`name'!="P") && (`name'!="OP") && (`name'!="OO") && (`name'!="B2OO") && (`name'!="B3OO") && (`name'!="F2OO") && (`name'!="F2BOO") && (`name'!="F2F2OO") && (`name'!="F4OO"))
+#if((`name'!="P") && (`name'!="OP") && (`name'!="OO") && (`name'!="B2OO") && (`name'!="B3OO") && (`name'!="F2OO") && (`name'!="F2BOO") && (`name'!="F2F2OO") && (`name'!="F4OO") && (`name'!="B2OP") && (`name'!="F2OP") && (`name'!="F2BOP") && (`name'!="FFOP") && (`name'!="FFBOP"))
 #include ../`cnt'/`name'_TL/`o'_`o2'.1PI
 #endif
 ;

@@ -1,0 +1,58 @@
+*--#[ legs :
+#define nF "4";
+#define nB "0";
+#define ng "2";
+*--#] legs :
+
+*--#[ preparations :
+** CAVEAT: currently only fline1 != fline2 are allowed with fline1=fline4 and fline2=fline3
+**id ext(fle1,fle3) = 0;
+#do dummy=0,100
+sum spt`dummy';
+#enddo
+sum sptf4;
+sum sptf42;
+multiply replace_(impe2,p,impe3,q,impe4,r,cfe1,A,cfe2,B,cfe3,C,cfe4,E,fle1,fline1,fle3,fline2);
+*--#] preparations :
+
+*--#[ gammas :
+Contract;
+#call project2Clifford(fline1)
+#call project2Clifford(fline2)
+#do dummy=1,`sptcnt'
+   sum sptt`dummy';
+#enddo
+
+** ugly hack to drop dummy indices
+Contract;
+.sort;
+multiply replace_(N1_?,spt0,N2_?,spt1,N3_?,spt2,N4_?,spt3);
+id GAMMA(fl?,spt1,spt0) = 2*d_(spt1,spt0)-GAMMA(fl,spt0,spt1);
+id GAMMA(fl?,spt?,imp?) = 2*imp(spt)-GAMMA(fl,imp,spt);
+id GAMMA(fl?,imp?,imp?) = imp.imp;
+id GAMMA(fl?,imp?,p) = 2*imp.p-GAMMA(fl,p,imp);
+id GAMMA(fl?,imp?!{p},q) = 2*imp.q-GAMMA(fl,q,imp);
+id GAMMA(fl?,spt?,spt?) = 4;
+id d_(spt1?,spt2?) = DO4v(spt1,spt2);
+.sort;
+id GAMMA5(fl1?,spt1)*GAMMA5(fl2?,spt1) = GAMMA5(fl1,spt0)*GAMMA5(fl2,spt0);
+id GAMMA(fl1?,spt?)*GAMMA(fl2?,spt?) = GAMMA(fl1,spt0)*GAMMA(fl2,spt0);
+id DO4v(spt1?,spt2?,spt5?,spt6?)*e_(spt1?,spt2?,spt3?,spt4?) = 0;
+id e_(imp1?,imp2?,imp3?,spt3?) = LC(imp1,imp2,imp3,spt3);
+id e_(imp1?,imp2?,spt2?,spt3?) = LC(imp1,imp2,spt2,spt3);
+id e_(imp1?,spt1?,spt2?,spt3?) = LC(imp1,spt1,spt2,spt3);
+id e_(spt0?,spt1?,spt2?,spt3?) = LC(spt0,spt1,spt2,spt3);
+*--#] gammas :
+
+*--#[ momenta :
+id p.p = P2;
+id q.q = Q2;
+id r.r = R2;
+
+id p.q = PQ;
+id p.r = PR;
+id q.r = QR;
+id p(spt1?) = P(spt1);
+id q(spt1?) = Q(spt1);
+id r(spt1?) = R(spt1);
+*--#] momenta :

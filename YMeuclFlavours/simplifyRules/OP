@@ -1,0 +1,30 @@
+*--#[ legs :
+#define nF "0";
+#define nB "0";
+#define ng "0";
+*--#] legs :
+
+*--#[ preparations :
+*--#] preparations :
+
+*--#[ gammas :
+id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?) = 0;
+id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?,spt5?,spt6?) = 0;
+#do dummy=0,100
+   sum sptt`dummy';
+   sum spt`dummy';
+#enddo
+** ugly hack to drop dummy indices
+Contract;
+id GAMMA(fl?,spt?,spt?) = 4;
+.sort;
+
+id e_(spt1?,spt2?,spt3?,spt4?) = LC(spt1,spt2,spt3,spt4);
+
+Contract;
+.sort;
+multiply replace_(N1_?,spt0,N2_?,spt1);
+*--#] gammas :
+
+*--#[ momenta :
+*--#] momenta :
