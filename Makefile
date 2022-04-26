@@ -134,20 +134,48 @@ graphs/%.1PI: $(MODEL).rules
 		python3 $(GTOOL) $(MODEL) $(basename $(notdir $@)) 1 1 "$(addsuffix /$@, . )"; \
 	fi;
 
+define crossdep1PI
+$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
+	cd $$(dir $$@); \
+	if test $$(findstring FF, $$(dir $$@)); then \
+		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) $(TOOL_1PI); \
+	else \
+		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(4)) -D singlet=1 $(_flag) $(TOOL_1PI); \
+	fi; \
+	cd ../..
+endef
+define crossdep1PI_TL
+$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
+	cd $$(dir $$@); \
+	if test $$(findstring FF, $$(dir $$@)); then \
+		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) $(TOOL_1PI_TL); \
+	else \
+		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) -D singlet=1 $(_flag) $(TOOL_1PI_TL); \
+	fi; \
+	cd ../..
+endef
+
+$(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossdep1PI_TL, $(graph), P, none, $(_op) ))))
+$(foreach graph, $(GRAPHSo_TL), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), O, $(_op), none ))))
+
+$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdep1PI, $(graph), P, none, $(_op) ))))
+$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops), $(eval $(call crossdep1PI, $(graph), O, $(_op), none ))))
+$(foreach graph, $(GRAPHSoo), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdep1PI, $(graph), OO, $(_o), $(_p) )))))
+$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(eval $(call crossdep1PI, $(graph), OP, $(_o), $(_p) )))))
+
 # hacks to implement dependence of up to two operator insertions (the second
 # insertion is supposed to be either from the action or form of a local field)
 define crossdepResTL
-$(addprefix $(addprefix results/, $(addsuffix /, $(1) )), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))): $(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3)))))
+$(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ))), $(addsuffix .res, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1) )), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4)))))
 	cd $$(dir $$@); \
-	echo $$(dir $$@);\
-	$(FORM) -p ../../../$(FORM_PATH) -D cnt=$$(firstword $$(subst /, ,$(1))) -D name=$$(firstword $$(subst _, ,$$(lastword $$(subst /, ,$(1))))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) $(_flag) simplify_TL; \
+	$(FORM) -p ../../../$(FORM_PATH) -D $$(addprefix cnt=,$(2)) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) simplify_TL; \
 	cd ../../..
 endef
 
 define crossdepRes
-$(addprefix $(addprefix results/, $(addsuffix /, $(1) )), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))): $(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))) $(if $(filter P, $(filter OP, $(1))), $(addprefix $(addsuffix _TL/, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))))
+$(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ) )), $(addsuffix .UVonly.res, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1) )), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))) $(if $(filter P, $(filter OP, $(1))), $(addprefix $(addsuffix _TL/, $(addprefix $(2)/, $(1) ) ), $(addsuffix .res, $(addprefix $(3), $(addprefix _, $(4))))))
 	cd $$(dir $$@); \
-	$(FORM) -p ../../../$(FORM_PATH) -D cnt=$$(firstword $$(subst /, ,$(1))) -D name=$$(lastword $$(subst /, ,$(1))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) $(_flag) simplify; \
+	$(FORM) -p ../../../$(FORM_PATH) -D $$(addprefix cnt=,$(2)) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) simplify; \
 	cd ../../..
 endef
 
@@ -156,49 +184,20 @@ _pos = $(if $(findstring $1,$2),$(call _pos,$1,\
 pos = $(words $(call _pos,$1,$2))
 
 
-$(foreach graph, $(addprefix P/, $(GRAPHSp_TL)), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), none, $(_op) ))))
-$(foreach graph, $(addprefix O/, $(GRAPHSo_TL)), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), $(_op), none ))))
+$(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), P, none, $(_op) ))))
+$(foreach graph, $(GRAPHSo_TL), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), O, $(_op), none ))))
 
-$(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(Pops), $(eval $(call crossdepRes, $(graph), none, $(_op) ))))
-$(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), $(_op), none ))))
-$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
-$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(eval $(call crossdepRes, $(graph), $(_o), $(_p) )))))
-
-define crossdep1PI
-$(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))):
-	cd $$(dir $$@); \
-	if test $$(findstring FF, $$(dir $$@)); then \
-		$(FORM) -p ../../$(FORM_PATH) -D name=$$(lastword $$(subst /, , $$(dir $$@))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) $(_flag) $(TOOL_1PI); \
-	else \
-		$(FORM) -p ../../$(FORM_PATH) -D name=$$(lastword $$(subst /, , $$(dir $$@))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) -D singlet=1 $(_flag) $(TOOL_1PI); \
-	fi; \
-	cd ../..
-endef
-define crossdep1PI_TL
-$(addprefix $(addsuffix /, $(1) ), $(addsuffix .1PI, $(addprefix $(2), $(addprefix _, $(3))))):
-	cd $$(dir $$@); \
-	if test $$(findstring FF, $$(dir $$@)); then \
-		$(FORM) -p ../../$(FORM_PATH) -D name=$$(lastword $$(subst /, , $$(dir $$@))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) $(_flag) $(TOOL_1PI_TL); \
-	else \
-		$(FORM) -p ../../$(FORM_PATH) -D name=$$(lastword $$(subst /, , $$(dir $$@))) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(3)) -D singlet=1 $(_flag) $(TOOL_1PI_TL); \
-	fi; \
-	cd ../..
-endef
-
-$(foreach graph, $(addprefix P/, $(GRAPHSp_TL)), $(foreach _op, $(Pops_TL), $(eval $(call crossdep1PI_TL, $(graph), none, $(_op) ))))
-$(foreach graph, $(addprefix O/, $(GRAPHSo_TL)), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), $(_op), none ))))
-
-$(foreach graph, $(addprefix P/, $(GRAPHSp)), $(foreach _op, $(Pops), $(eval $(call crossdep1PI, $(graph), none, $(_op) ))))
-$(foreach graph, $(addprefix O/, $(GRAPHSo)), $(foreach _op, $(Ops), $(eval $(call crossdep1PI, $(graph), $(_op), none ))))
-$(foreach graph, $(addprefix OO/, $(GRAPHSoo)), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
-$(foreach graph, $(addprefix OP/, $(GRAPHSop)), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(eval $(call crossdep1PI, $(graph), $(_o), $(_p) )))))
+$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdepRes, $(graph), P, none, $(_op) ))))
+$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), O, $(_op), none ))))
+$(foreach graph, $(GRAPHSoo), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdepRes, $(graph), OO, $(_o), $(_p) )))))
+$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(eval $(call crossdepRes, $(graph), OP, $(_o), $(_p) )))))
 
 # allows to choose the desired n-point function according to name and then
-# generate everything according to dependencies
-$(GRAPHSp_TL):  %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(Pops_TL)))
-$(GRAPHSo_TL):  %: graphs/%.1PI $(addprefix results/O/%/, $(addsuffix _none.1PI, $(Ops_TL)))
+# generate everything according to dependencies/, $(_o)_$(_p).UVonly.1PI)))
+$(GRAPHSp_TL):  %: $(addprefix results/P/%/none_, $(addsuffix .res, $(Pops_TL)))
+$(GRAPHSo_TL):  %: $(addprefix results/O/%/, $(addsuffix _none.res, $(Ops_TL)))
 
-$(GRAPHSp):     %: graphs/%.1PI $(addprefix results/P/%/none_, $(addsuffix .1PI, $(Pops))) $(if $(subst P,, %), $(addsuffix _TL, %))
-$(GRAPHSo):     %: graphs/%.1PI $(foreach _o, $(Ops), $(addprefix results/O/%/, $(addsuffix _none.1PI, $(_o)))) $(addsuffix _TL, %)
-$(GRAPHSoo):    %: graphs/%.1PI $(foreach _o, $(Ops_contact), $(foreach _p, $(Ops_contact), $(addprefix results/OO/%/, $(_o)_$(_p).1PI)))
-$(GRAPHSop):    %: graphs/%.1PI $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(addprefix results/OP/%/, $(_o)_$(_p).1PI)))
+$(GRAPHSp):     %: $(addprefix results/P/%/none_, $(addsuffix .UVonly.res, $(Pops)))
+$(GRAPHSo):     %: $(foreach _o, $(Ops), $(addprefix results/O/%/, $(addsuffix _none.UVonly.res, $(_o))))
+$(GRAPHSoo):    %: $(foreach _o, $(Ops_contact), $(foreach _p, $(Ops_contact), $(addprefix results/OO/%/, $(_o)_$(_p).UVonly.res)))
+$(GRAPHSop):    %: $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(addprefix results/OP/%/, $(_o)_$(_p).UVonly.res)))
