@@ -65,26 +65,33 @@ Eventually the available commands are:
 make obs{$(GRAPHSo) $(GRAPHSp) $(GRAPHSoo) $(GRAPHSop)}
 ```
    Compute 1PI 1-loop graphs in dimensional regularisation for given observable.
-   Results are then stored in the appropriate folder in {O|P|OO|OP}/obs/op.1PI.
+   While a temparary result without translation into Mathematica notation is
+   kept in {O|P|OO|OP}/obs/op.1PI, the final result is stored in the folder
+   results/{O|P|OO|OP}/obs/op.UVonly.res . The letters `P` and `O` indicate
+   single insertions of the local field and an operator of the effective action
+   respectively. Notice, that (after proper adjustement of the Makefile) also
+   Green's functions like `F2On`and `F2O...O`would be acceptible, which
+   corresponds to a quark anit-quark pair of idential flavour with insertion of
+   either `n' times the same operator or many operators of potentially differing
+   kind respectively. Currently used is the notation `F2OO` for the contact
+   renormalisation.
+   
 
 ```bash
 make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
 ```
-   Compute 1PI tree-level graphs for given observable. Results of operator op
-   are then stored in the appropriate folder in {O|P}/obs/op.1PI. Notice that
-   contact term renormalisation with the strategy used here does not require
-   tree-level computations of OP|OO contact terms due to considering 1PI graphs.
+   Compute 1PI tree-level graphs for given observable. Notice that contact term
+   renormalisation with the strategy used here does not require tree-level
+   computations of OP|OO contact terms due to considering 1PI graphs.
+   Again a temparary result without translation into Mathematica notation is
+   kept in {O|P|OO|OP}/obs/op.1PI and the final result is stored in the folder
+   results/{O|P|OO|OP}/obs/op.UVonly.res .
 
-```bash
-make simplify
-make simplify_TL
-```
-   Reduce any occurring tensor structure to a minimal basis (in particular
-   needed for the outgoing fermion lines). Applies the Z-factors needed to
-   renormalise the external legs and the coupling to 1-loop order. Also
-   translates dummy indices and all symbols to be compatible to Mathematica
-   syntax. Results are then stored in the appropriate folder in
-   results/{O|P|OO|OP}/GRAPH/op.res .
+   The simplifed results have any occurring tensor structures reduced to a
+   minimal basis (this is needed in particular for the outgoing fermion lines).
+   Also the Z-factors needed to renormalise the external legs and the coupling
+   to 1-loop order are applied. Finally dummy indices and all symbols are
+   expressed in a form compatible to Mathematica syntax.
 
 
 Use of Mathematica scripts
@@ -96,31 +103,34 @@ that `LOOPvalues` and `TLvalues` holds the results for the graph as specified in
 the call to one of the Mathematica functions
 
 
-<details>
-<summary>`generateGFlocal["name"]`</summary>
+```Mathematica
+generateGFlocal["name"]
+```
 Loads the 1-loop and TL results for the graph specified by `"name"` for a single
 insertion of a local field at non-zero momentum.
-</details>
 
-<details>
-<summary>`generateGF["name"]`</summary>
+
+```Mathematica
+generateGF["name"]
+```
 Loads the 1-loop and TL results for the graph specified by `"name"` for a single
 insertion of an operators of the effective action at zero momentum.
-</details>
 
-<details>
-<summary>`generateGFdoublelocal["op1", "op2", "name"]`</summary>
+
+```Mathematica
+generateGFdoublelocal["op1", "op2", "name"]
+```
 Loads the 1-loop results for the graph specified by `"name"` for a single
 insertion of the local field labelled `"op1"` combined with another insertion
 from the set of operators contained in `"op2"`.
-</details>
 
-<details>
-<summary>`generateGFdouble["op1", "op2", "name"]`</summary>
+```Mathematica
+generateGFdouble["op1", "op2", "name"]
+```
 Loads the 1-loop results for the graph specified by `"name"` for a single
 insertion of the operator labelled `"op1"` combined with another insertion from
 the set of operators contained in `"op2"`.
-</details>
+
 
 How to generate Feynman rules
 ------------------------------
@@ -153,5 +163,4 @@ Missing
 * Full results not just UV poles (and choosing between both).
 * Computation of connected graphs (either build from 1PI graphs or
   directly computed) for both UV poles only and full result.
-* Avoid redoing double operator insertions with different ordering.
 * ...
