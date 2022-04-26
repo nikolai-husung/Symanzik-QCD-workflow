@@ -65,14 +65,15 @@ Eventually the available commands are:
 make obs{$(GRAPHSo) $(GRAPHSp) $(GRAPHSoo) $(GRAPHSop)}
 ```
    Compute 1PI 1-loop graphs in dimensional regularisation for given observable.
-   IF $(op) is set, only this operator will be computed. Results are then stored
-   in the appropriate folder in GRAPH/op.res.
+   Results are then stored in the appropriate folder in {O|P|OO|OP}/obs/op.1PI.
 
 ```bash
 make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
 ```
    Compute 1PI tree-level graphs for given observable. Results of operator op
-   are then stored in the appropriate folder in {O|P|OO|OP}/obs/op.res.
+   are then stored in the appropriate folder in {O|P}/obs/op.1PI. Notice that
+   contact term renormalisation with the strategy used here does not require
+   tree-level computations of OP|OO contact terms due to considering 1PI graphs.
 
 ```bash
 make simplify
@@ -85,10 +86,41 @@ make simplify_TL
    syntax. Results are then stored in the appropriate folder in
    results/{O|P|OO|OP}/GRAPH/op.res .
 
+
+Use of Mathematica scripts
+------------------------------
+
 Once the simplified results have been generated, they can be imported into
 Mathematica using the functions defined in loadOperatorGreensFunctions.nb, such
 that `LOOPvalues` and `TLvalues` holds the results for the graph as specified in
-the call to `generateGF["..."]`. As an example Evaluation_B2O.nb has been added.
+the call to one of the Mathematica functions
+
+
+<details>
+<summary>`generateGFlocal["name"]`</summary>
+Loads the 1-loop and TL results for the graph specified by `"name"` for a single
+insertion of a local field at non-zero momentum.
+</details>
+
+<details>
+<summary>`generateGF["name"]`</summary>
+Loads the 1-loop and TL results for the graph specified by `"name"` for a single
+insertion of an operators of the effective action at zero momentum.
+</details>
+
+<details>
+<summary>`generateGFdoublelocal["op1", "op2", "name"]`</summary>
+Loads the 1-loop results for the graph specified by `"name"` for a single
+insertion of the local field labelled `"op1"` combined with another insertion
+from the set of operators contained in `"op2"`.
+</details>
+
+<details>
+<summary>`generateGFdouble["op1", "op2", "name"]`</summary>
+Loads the 1-loop results for the graph specified by `"name"` for a single
+insertion of the operator labelled `"op1"` combined with another insertion from
+the set of operators contained in `"op2"`.
+</details>
 
 How to generate Feynman rules
 ------------------------------
