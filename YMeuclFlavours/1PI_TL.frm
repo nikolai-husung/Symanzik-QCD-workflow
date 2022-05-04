@@ -15,6 +15,7 @@ Local diagrams =
 
 #call qgraf2form
 
+
 #call Colours
 .sort;
 

@@ -14,6 +14,7 @@ CTensor FC(antisymmetric),DC(symmetric),TC,Trtemp,Tr(cyclesymmetric);
 CFunction DO4v(symmetric),MOMENTA,COLs,CFs,SPTs,FLs,ordering(antisymmetric),DUMMY,vert,L;
 CFunction Bbuffer,Abuffer,Psibarbuffer,Psibuffer,Psib,Psibarb,Bb,Ab,M;
 CFunction OPF,FL,FLtest;
+CTensor GAMMA,GAMMA5,SIGMA(antisymmetric);
 ** F = [D,D]/g
 NFunction Psibar,Psi,A,F,Cbar,C,B;
 
@@ -198,6 +199,7 @@ id DO4v(spt1?,spt2?) = d_(spt1,spt2);
 #do dummy=0,`ccnt'
 sum cf`dummy';
 sum col`dummy';
+sum spt`dummy';
 #enddo
 id TC(col1?,cf1?,cf2?)*TC(col2?,cf2?,cf1?) = -TF*d_(col1,col2);
 id TF = 1/2;
