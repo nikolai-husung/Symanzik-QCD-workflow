@@ -103,7 +103,7 @@ GRAPHSop = $(addsuffix OP, $(GRAPHS) FF FFB) OP
 # odd numbered variants)
 
 
-GRAPHSp_TL  = $(addsuffix P_TL, $(GRAPHS) FF FFB B3)
+GRAPHSp_TL  = $(addsuffix P_TL, $(GRAPHS) FF FFB)
 GRAPHSo_TL  = $(addsuffix _TL, $(GRAPHSo))
 GRAPHSop_TL = $(addsuffix OP_TL, $(GRAPHS) FF FFB)
 
@@ -136,7 +136,7 @@ graphs/%.1PI: $(MODEL).rules
 	fi;
 
 define crossdep1PI
-$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(3))) $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
+$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffix .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
 	cd $$(dir $$@); \
 	if test $$(findstring FF, $$(dir $$@)); then \
 		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) $(TOOL_1PI); \
@@ -146,7 +146,7 @@ $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addpre
 	cd ../..
 endef
 define crossdep1PI_TL
-$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(3))) $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
+$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffix .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
 	cd $$(dir $$@); \
 	if test $$(findstring FF, $$(dir $$@)); then \
 		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) $(TOOL_1PI_TL); \
