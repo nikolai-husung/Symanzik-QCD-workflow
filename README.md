@@ -170,7 +170,8 @@ if(match(vert(...))) redefine dummy "0";
 ```
 where the `#do` loop is necessary to keep track of the preprocessor index
 counters. **Always check that there are no contracted indices that have not been
-caught!** Any contracted indices will be present as wildcards N1_? and must be
-treated manually. Also the field specific Lorentz indices `kappa' and `lambda'
-should be replaced by their respective vector counterparts `kappahat' and
-`lambdahat'.
+caught!** Any contracted indices will be present as wildcards `N1_?` etc. and
+must be treated manually. Also the field specific Lorentz indices `kappa` and
+`lambda` should be replaced by their respective vector counterparts `kappahat`
+and `lambdahat`. For local fields denoted as `P` we also need to replace any
+occurrence of `anchor(...)` with `src(...)`.
