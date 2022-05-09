@@ -29,7 +29,8 @@ https://github.com/vermaseren/form
 http://cfif.ist.utl.pt/~paulo/qgraf.html
 
 Must be compiled with `maxdeg=7` rather than `maxdeg=6` due to 7-point vertices
-when counting the anchor field.
+when counting the anchor field for the mass-dimension 6 operators used in the
+effective action.
 </details>
 
 <details>
@@ -90,14 +91,17 @@ make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
    The simplifed results have any occurring tensor structures reduced to a
    minimal basis (this is needed in particular for the outgoing fermion lines).
    Also the Z-factors needed to renormalise the external legs and the coupling
-   to 1-loop order are applied. Finally dummy indices and all symbols are
-   expressed in a form compatible to Mathematica syntax.
+   to 1-loop order are applied.
 
 
 **Remark:** The simplified results are evaluated at fixed index permutations
 (mu,nu,rho,kappa,lambda) = (1,1,1,1,1), (1,1,1,1,2), ...
 that can yield different answers, i.e. we do not consider the permutation
-(2,2,2,2,2) etc.
+(2,2,2,2,2) etc. Notice that this currently generates quite a lot of overhead
+if one is e.g. interested in a scalar operator inserted into a fermion 4-point
+function, because there are no Lorentz indices present and yet all expressions
+are treated identically.
+
 
 Use of Mathematica scripts
 ------------------------------
@@ -141,7 +145,13 @@ How to generate Feynman rules
 ------------------------------
 
 Each operator of interest must be defined in YMeuclFlavours/rawOps.frm with
-an identifier NAME before one can run
+an identifier NAME, e.g.
+```form
+*--#[ divV:
+D(spt0)*Psibar(fl0,imp0,cf0)*FL(fl0,spt0,fl1)*Psi(fl1,imp2,cf1)*DO4v(cf0,cf1)
+*--#] divV:
+```
+before one can run
 ```bash
 cd YMeuclFlavours
 python3 generateRules.py NAME
@@ -160,12 +170,7 @@ if(match(vert(...))) redefine dummy "0";
 ```
 where the `#do` loop is necessary to keep track of the preprocessor index
 counters. **Always check that there are no contracted indices that have not been
-caught!**
-
-Missing
-------------------------------
-
-* Full results not just UV poles (and choosing between both).
-* Computation of connected graphs (either build from 1PI graphs or
-  directly computed) for both UV poles only and full result.
-* ...
+caught!** Any contracted indices will be present as wildcards N1_? and must be
+treated manually. Also the field specific Lorentz indices `kappa' and `lambda'
+should be replaced by their respective vector counterparts `kappahat' and
+`lambdahat'.
