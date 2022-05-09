@@ -16,7 +16,6 @@
 #enddo
 
 
-
 #do dummy=1,1
    id,once vert(aquark(p?,spt1?,cf1?,fl1?),`Q'(q?,spt2?,cf2?,fl2?),field1?{gluon,bgf}(r?,gamma?,b?,fl5?),src(?args)) =
       - 2*TC(b,cf1,cf2)*DO4v(gamma,kappahat,spt`sptcnt',p)*FL(fl1,G5,spt`sptcnt',fl2)*i_*g
@@ -25,7 +24,6 @@
    if(match(vert(aquark(p?,spt1?,cf1?,fl1?),`Q'(q?,spt2?,cf2?,fl2?),field1?{gluon,bgf}(r?,gamma?,b?,fl5?),src(?args)))) redefine dummy "0";
    .sort;
 #enddo
-
 
 
 #do dummy=1,1

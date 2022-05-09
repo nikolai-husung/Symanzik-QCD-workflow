@@ -25,7 +25,7 @@ P5 = qSigmaFQ \
    qSigmaFtildeQ \
    qGammaD2lrQ qGammaGamma5FtildeQ \
    qGammaGamma5D2lrQ qGammaFtildeQ DFFtilde DFFtildenO4 \
-   qSigmaD2lrQ qFQ qGamma5FtildeQ qSigmaDlr2Q qDlDQ 
+   qSigmaD2lrQ qFQ qGamma5FtildeQ qSigmaDlr2Q qDlDQ
 
 P4 = trF2 trFFtilde qDlrQ qGamma5DlrQ qDGammalrQ 
 
@@ -35,10 +35,11 @@ dP5 = $(addprefix d2, $(P3)) \
    \
    \
    d2VnO4 \
-   d2AnO4 gradFFtilde divFFtilde dFFtildenO4 \
+   d2AnO4 gradFFtilde \
    d2TnO4 
 
-dP4 = divT gradP gradV rotA
+dP4 = gradP gradV rotA
+#divT
 
 # EOM vanishing operators -> needed for background field method [D0 = Dslash+m]
 Peom = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ \
@@ -135,17 +136,17 @@ graphs/%.1PI: $(MODEL).rules
 	fi;
 
 define crossdep1PI
-$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
+$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffix .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
 	cd $$(dir $$@); \
 	if test $$(findstring FF, $$(dir $$@)); then \
 		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) $(TOOL_1PI); \
 	else \
-		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(2)) -D $$(addprefix o2=, $(4)) -D singlet=1 $(_flag) $(TOOL_1PI); \
+		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) -D singlet=1 $(_flag) $(TOOL_1PI); \
 	fi; \
 	cd ../..
 endef
 define crossdep1PI_TL
-$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffx .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
+$(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(FORM_PATH)/feynmanRules/, $(addsuffix .h, $(3) $(4))) $(addprefix graphs/, $(addsuffix .1PI, $(1)))
 	cd $$(dir $$@); \
 	if test $$(findstring FF, $$(dir $$@)); then \
 		$(FORM) -p ../../$(FORM_PATH) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) $(TOOL_1PI_TL); \
@@ -166,14 +167,14 @@ $(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact
 # hacks to implement dependence of up to two operator insertions (the second
 # insertion is supposed to be either from the action or form of a local field)
 define crossdepResTL
-$(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ))), $(addsuffix .res, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1) )), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4)))))
+$(addprefix $(addprefix results/, $(addsuffix _TL/, $(addprefix $(2)/, $(1) ))), $(addsuffix .res, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(addsuffix _TL/, $(addprefix $(2)/, $(1) )), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))) $(FORM_PATH)/simplify_TL.frm $(FORM_PATH)/simplify_routines.h
 	cd $$(dir $$@); \
 	$(FORM) -p ../../../$(FORM_PATH) -D $$(addprefix cnt=,$(2)) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) simplify_TL; \
 	cd ../../..
 endef
 
 define crossdepRes
-$(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ) )), $(addsuffix .UVonly.res, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1) )), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))) $(if $(filter P, $(filter OP, $(1))), $(addprefix $(addsuffix _TL/, $(addprefix $(2)/, $(1) ) ), $(addsuffix .res, $(addprefix $(3), $(addprefix _, $(4))))))
+$(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ) )), $(addsuffix .UVonly.res, $(addprefix $(3), $(addprefix _, $(4))))): $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1) )), $(addsuffix .1PI, $(addprefix $(3), $(addprefix _, $(4))))) $(if $(filter P, $(filter OP, $(1))), $(addprefix $(addsuffix _TL/, $(addprefix $(2)/, $(1) ) ), $(addsuffix .res, $(addprefix $(3), $(addprefix _, $(4)))))) $(FORM_PATH)/simplify.frm $(FORM_PATH)/simplify_routines.h
 	cd $$(dir $$@); \
 	$(FORM) -p ../../../$(FORM_PATH) -D $$(addprefix cnt=,$(2)) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) simplify; \
 	cd ../../..
@@ -184,8 +185,8 @@ _pos = $(if $(findstring $1,$2),$(call _pos,$1,\
 pos = $(words $(call _pos,$1,$2))
 
 
-$(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), P, none, $(_op) ))))
-$(foreach graph, $(GRAPHSo_TL), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), O, $(_op), none ))))
+$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), P, none, $(_op) ))))
+$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), O, $(_op), none ))))
 
 $(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdepRes, $(graph), P, none, $(_op) ))))
 $(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), O, $(_op), none ))))

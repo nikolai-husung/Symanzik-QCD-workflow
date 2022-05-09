@@ -1,7 +1,8 @@
 Format mathematica;
 
 
-Index A,B,C,E;
+Index A,B,C,E,kappa,lambda,mu,nu,rho;
+Auto Index spt=4;
 
 #include defaults.h
 #include qgraf2form.h
@@ -10,16 +11,24 @@ Index A,B,C,E;
 
 #include simplify_routines.h
 
-CFunction P,Q,R,S;
-Symbol P2,Q2,R2,S2,PQ,PR,PS,QR,QS,RS,I,test,dZm,Pslash,Qslash;
-
 Local tl = (
 #include ../`cnt'/`name'_TL/`o'_`o2'.1PI
 )
 ;
 
+repeat;
+id q?evectors[n](spt?) = d_(spt,indices[n]);
+id p?.q?evectors[n] = p(indices[n]);
+id e_(p?evectors[n],spt0?,spt1?,spt2?) = e_(indices[n],spt0,spt1,spt2);
+id DO4v(p?evectors[n],spt0?,spt1?,spt2?) = DO4v(indices[n],spt0,spt1,spt2);
+id DO4v(p?evectors[n],spt0?,spt1?) = DO4v(indices[n],spt0,spt1);
+endrepeat;
+id g_(fl?,p?evectors[n]) = g_(fl,indices[n]);
 
-id D = 4;
+argument;
+id q?evectors[n] = indices[n];
+endargument;
+
 id ext(?args) = 1;
 
 
@@ -28,23 +37,9 @@ id d_(col1?,col2?) = DO4v(col1,col2);
 id DenomConst(imp?,n?) = DenomConst(imp.imp,n);
 id Denom(imp?,Omega?,n?) = Denom(imp.imp+Omega,n);
 
-** Get rid of ZEROs
-id ZERO = 0;
-argument;
-   id ZERO = 0;
-endargument;
 
-.sort;
-
+multiply replace_(impe1,p,impe2,q,impe3,r,impe4,s,spte1,mu,spte2,nu,spte3,rho);
 #include simplifyRules/`name' # preparations
-
-** enforce on-shell conditions
-#include simplifyRules/`name' # gammas
-id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);
-#include simplifyRules/`name' # momenta
-argument;
-#include simplifyRules/`name' # momenta
-endargument;
 
 id DenomConst(m?,n?) = Denom(m,n);
 repeat;
@@ -52,21 +47,24 @@ id Denom(m?,n?)*Denom(m?,l?) = Denom(m,n+l);
 endrepeat;
 id Denom(m?,n?) = (1/m)^n;
 
-
-id D = 4;
 id i_ = I;
 
-id CF = TF*(Nc-1/Nc);
-id CA = Nc;
-id Ng = Nc^2-1;
+#call project2Clifford(fline1)
+#call project2Clifford(fline2)
 
-.sort;
-id d_(spt1?,spt2?) = DO4v(spt1,spt2);
-multiply replace_(N1_?, spt0, N2_?, spt1);
+Contract;
 
+id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);
+id DO4v(spt?,spt?,spt1?,imp?) = imp(spt1);
+id DO4v(spt?,spt?,imp1?,imp2?) = imp1.imp2;
+id DO4v(spt1?,spt2?,spt3?,spt4?)*e_(spt1?,spt2?,spt5?,spt6?) = 0;
+
+#call handlePermutations
 
 id ext(?args) = 1;
 .sort;
 Format mathematica;
+bracket PERM;
+.sort;
 #write <../../../results/`cnt'/`name'_TL/`o'_`o2'.res> "(%E)", tl;
 .end;

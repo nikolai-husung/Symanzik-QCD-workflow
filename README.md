@@ -67,12 +67,12 @@ make obs{$(GRAPHSo) $(GRAPHSp) $(GRAPHSoo) $(GRAPHSop)}
    Compute 1PI 1-loop graphs in dimensional regularisation for given observable.
    While a temparary result without translation into Mathematica notation is
    kept in {O|P|OO|OP}/obs/op.1PI, the final result is stored in the folder
-   results/{O|P|OO|OP}/obs/op.UVonly.res . The letters `P` and `O` indicate
+   results/{O|P|OO|OP}/obs/op.UVonly.res. The letters `P` and `O` indicate
    single insertions of the local field and an operator of the effective action
    respectively. Notice, that (after proper adjustement of the Makefile) also
    Green's functions like `F2On`and `F2O...O`would be acceptible, which
-   corresponds to a quark anit-quark pair of idential flavour with insertion of
-   either `n' times the same operator or many operators of potentially differing
+   corresponds to a quark anit-quark pair of identical flavour with insertion of
+   either `n` times the same operator or many operators of potentially differing
    kind respectively. Currently used is the notation `F2OO` for the contact
    renormalisation.
    
@@ -93,6 +93,11 @@ make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
    to 1-loop order are applied. Finally dummy indices and all symbols are
    expressed in a form compatible to Mathematica syntax.
 
+
+**Remark:** The simplified results are evaluated at fixed index permutations
+(mu,nu,rho,kappa,lambda) = (1,1,1,1,1), (1,1,1,1,2), ...
+that can yield different answers, i.e. we do not consider the permutation
+(2,2,2,2,2) etc.
 
 Use of Mathematica scripts
 ------------------------------

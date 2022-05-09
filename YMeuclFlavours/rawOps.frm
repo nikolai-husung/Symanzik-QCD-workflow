@@ -108,7 +108,7 @@ Psibar(fl0,imp0,cf0)*(Dcovfl(imp1,spt1,cf0,cf1)+etaC*Dcovf(imp1,spt1,cf0,cf1))*P
 
 * CAVEAT: only correct to 1-loop 1/eps order
 *--#[ gradFFtilde:
-D(kappa)*F(imp0,imp1,spt0,spt1,col0)*F(imp2,imp3,spt2,spt3,col1)*TC(col0,cf0,cf2)*TC(col1,cf2,cf0)/g^2*e_(spt0,spt1,spt2,spt3)
+D(spt4)*F(imp0,imp1,spt0,spt1,col0)*F(imp2,imp3,spt2,spt3,col1)*TC(col0,cf0,cf2)*TC(col1,cf2,cf0)/g^2*e_(spt0,spt1,spt2,spt3)*DO4v(spt4,kappa)
 *--#] gradFFtilde:
 
 *--#[ DFFtilde2:
@@ -141,7 +141,7 @@ D(spt4)*F(imp0,imp1,spt0,spt1,col0)*F(imp2,imp3,spt2,spt3,col1)*TC(col0,cf0,cf2)
 
 * CAVEAT: only correct to 1-loop 1/eps order
 *--#[ dFFtildenO4:
-DO4v(kappa,spt0,spt4,spt5)*D(spt5)*F(imp0,imp1,spt0,spt1,col0)*F(imp2,imp3,spt2,spt3,col1)*TC(col0,cf0,cf2)*TC(col1,cf2,cf0)/g^2*e_(spt4,spt1,spt2,spt3)
+DO4v(kappa,spt0,spt4,spt5)*DO4v(spt7,spt2)*DO4v(spt8,spt3)*D(spt5)*F(imp0,imp1,spt0,spt1,col0)*F(imp2,imp3,spt2,spt3,col1)*TC(col0,cf0,cf2)*TC(col1,cf2,cf0)/g^2*e_(spt4,spt1,spt7,spt8)
 *--#] dFFtildenO4:
 
 *--#[ qGammaGamma5D0lrQ:

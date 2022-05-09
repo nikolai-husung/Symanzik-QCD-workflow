@@ -14,25 +14,15 @@ Local diagrams =
 
 #call qgraf2form
 
-#call Colours
-
 .sort;
-
-
 
 *** actually prepareDimReg and dimReg may be used universally with Feynman parameters...
 #call prepareDimReg(k1)
 #call dimReg(k1)
 
 
-#do dummy=1,1
-   id,once FL(?args,G5,?args2) = e_(spt`sptcnt',spt{`sptcnt'+1},spt{`sptcnt'+2},spt{`sptcnt'+3})*FL(?args,spt`sptcnt',spt{`sptcnt'+1},spt{`sptcnt'+2},spt{`sptcnt'+3},?args2)/fac_(4);
-   redefine sptcnt "{`sptcnt'+4}";
-   if(match(FL(?args,G5,?args2))) redefine dummy "0";
-   .sort;
-#enddo
 id FL(fl1?,?args,fl2?) = g_(fl1,?args)*FL(fl1,fl2);
-
+id g_(fl?,G5) = g5_(fl);
 
 ** Compute all occuring fermion loops AFTER dimensional regularisation
 ** has been applied.
@@ -42,14 +32,18 @@ id FL(fl1?,?args,fl2?) = g_(fl1,?args)*FL(fl1,fl2);
 **    additional gamma matrices involved in the trace tr(g5_*...)
 if(match(FL(fl?,fl?))>0);
    id FL(fl?,fl?) = replace_(fl,floop)*FLOOP(floop);
-   tracen floop;
+   trace4 floop;
 endif;
 
 id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);
+id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?,spt5?,spt6?) = 0;
+id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?) = 0;
 .sort;
 
 ** CHECK up to which O(eps^n) this is correct!
 #call Gammas
+
+#call Colours
 
 
 ** This flag can be used to keep the Tr[aces] instead of a reduction to algebra constants: TF,CF,CA.

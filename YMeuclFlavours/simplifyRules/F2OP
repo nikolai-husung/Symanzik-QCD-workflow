@@ -25,9 +25,6 @@ sum spt`dummy';
 #call project2Clifford(fline1)
 id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?) = 0;
 id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?,spt5?,spt6?) = 0;
-#do dummy=1,`sptcnt'
-   sum sptt`dummy';
-#enddo
 ** ugly hack to drop dummy indices
 Contract;
 .sort;
