@@ -1,3 +1,7 @@
+* Copyright (c) 2022 Nikolai Husung
+*
+* This software is distributed under the terms of the MIT License
+
 #include defaults.h
 #include qgraf2form.h
 #include prepareDimReg.h

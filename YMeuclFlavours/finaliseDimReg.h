@@ -1,3 +1,7 @@
+* Copyright (c) 2022 Nikolai Husung
+*
+* This software is distributed under the terms of the MIT License
+
 ***** Functions for dimensional regularisiation *****
 #procedure Gammas
 id Gamma(m?,eps?)/Gamma(m?,eps?) = 1;

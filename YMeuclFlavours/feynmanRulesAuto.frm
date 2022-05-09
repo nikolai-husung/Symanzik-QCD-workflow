@@ -1,3 +1,7 @@
+* Copyright (c) 2022 Nikolai Husung
+*
+* This software is distributed under the terms of the MIT License
+
 ***** Usage: form -D op=... feynmanRulesAuto
 ** where n is the power of the coupling g^n.
 #define sign "(+1)";

@@ -1,3 +1,7 @@
+* Copyright (c) 2022 Nikolai Husung
+*
+* This software is distributed under the terms of the MIT License
+
 Format mathematica;
 
 Index A,B,C,E,kappa,lambda,mu,nu,rho;

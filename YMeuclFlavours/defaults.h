@@ -1,3 +1,7 @@
+* Copyright (c) 2022 Nikolai Husung
+*
+* This software is distributed under the terms of the MIT License
+
 ***** Dimensioal regularisation
 ** D - denotes the dimension used for dimensional regularisation, where D=4-2eps
 Symbol D,eps,gammaE;

@@ -1,3 +1,8 @@
+# Copyright (c) 2022 Nikolai Husung
+#
+# This software is distributed under the terms of the MIT License
+#
+#
 # Usage:
 #   make onepi
 #   => generate 1-loop 1PI $(GRAPHS) with QGRAF and translate into final template

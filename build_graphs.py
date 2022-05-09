@@ -1,3 +1,8 @@
+# Copyright (c) 2022 Nikolai Husung
+#
+# This software is distributed under the terms of the MIT License
+
+
 import sys,os
 from string import ascii_letters
 

@@ -1,3 +1,7 @@
+* Copyright (c) 2022 Nikolai Husung
+*
+* This software is distributed under the terms of the MIT License
+
 *** define symbols used to mask syntax for Mathematica
 CFunction P,Q,R,S,PERM;
 Symbol P2,Q2,R2,S2,PQ,PR,PS,QR,QS,RS,I,dZm;
