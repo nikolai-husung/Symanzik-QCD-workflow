@@ -1,5 +1,4 @@
-Symanzik-QCD-workflow
-==============================
+# Symanzik-QCD-workflow
 
 This toolset is supplied in order to trivialise the procedure of 1-loop operator
 renormalisation in dimensional regularisation. It is set up for the Background
@@ -10,8 +9,7 @@ only extract the UV poles in dimensional regularisation. (extension to full
 1-loop should be straight forward)
 
 
-Software requirements
-------------------------------
+## Software requirements
 
 We list here each software and the version that was used in case older versions
 (or maybe even newer versions) introduce compatibility issues or have missing
@@ -45,8 +43,38 @@ https://www.python.org/
 https://www.wolfram.com/mathematica/
 </details>
 
-Usage
-------------------------------
+## Usage
+
+The steps required to do from formulating the problem to getting all relevant
+1-loop UV poles are as follows:
+
+0. Work out minimal operator basis compatible with symmetries of the lattice
+discretisation for both the lattice action and the discretised local fields
+of interest. ***This step is not implemented or automated here.***
+1. Write down each operator of the found minimal bases as a FORM prototype
+in YMeuclFlavours/rawOps.frm in its own [fold](https://www.nikhef.nl/~form/maindir/documentation/reference/online/online.html#SECTION004340000000000000000)
+giving it a unique name.
+2. The desired Feynman rules can then be obtained as explained in section
+[How to generate Feynman rules](#how-to-generate-feynman-rules). They still
+require some manual cleanup.
+3. Store the Feynman rules of the new operator with its unique `name` under
+YMeuclFlavours/feynmanRules/`name`.h and add it to the appropriate collection
+of operators in the Makefile (P3,...,P5,dP4,...,O5,O6, etc.) depending on
+whether it is a correction belonging to a local field or the action.
+4. Now, all that remains to be done is to run `make ...`, which will generate
+all 1-loop UV divergences for the operators listed in the Makefile. The
+functionaliy of the Makefile is explained in the following. Eventually all
+that remains to be done is to perform the 1-loop renormalisation. For this I
+supplied some [Mathematica notebooks](#use-of-Mathematica-scripts) as guidance
+and made the final results syntax compatible to Mathematica.
+5. For more complicated operators e.g. more free Lorentz indices, higher mass-
+dimensions etc., the Makefile must be modified. Most changes should be doable
+by restricting to the various listings of operators and n-point functions.
+However, the other scripts may require quite a bit of work as not everything
+has been implemented with the full generality in mind. 
+
+
+### Capabilites of the Makefile
 
 Before getting started the following (system specific) parameters should be set
 in the Makefile (see also comments in the Makefile):
@@ -106,8 +134,7 @@ identically, i.e. including permutations for the presumed (up to) two Lorentz
 indices of the local field.
 
 
-Use of Mathematica scripts
-------------------------------
+### Use of Mathematica scripts
 
 Once the simplified results have been generated, they can be imported into
 Mathematica using the functions defined in loadOperatorGreensFunctions.nb, such
@@ -144,8 +171,7 @@ insertion of the operator labelled `"op1"` combined with another insertion from
 the set of operators contained in `"op2"`.
 
 
-How to generate Feynman rules
-------------------------------
+### How to generate Feynman rules
 
 Each operator of interest must be defined in YMeuclFlavours/rawOps.frm with
 an identifier NAME, e.g.
