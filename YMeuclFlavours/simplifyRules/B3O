@@ -2,9 +2,10 @@
 #define nF "0";
 #define nB "3";
 #define ng "1";
+Set extIndices: spte1,spte2,spte3;
 *--#] legs :
 
 
 *--#[ preparations :
-multiply replace_(cole1,a,cole2,b,cole3,c);
+multiply replace_(impe1,p,impe2,q,impe3,r,cole1,a,cole2,b,cole3,c)*Test(3);
 *--#] preparations :

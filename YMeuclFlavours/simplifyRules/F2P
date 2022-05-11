@@ -2,50 +2,9 @@
 #define nF "2";
 #define nB "0";
 #define ng "0";
+Set extIndices: kappa,lambda;
 *--#] legs :
 
 *--#[ preparations :
-multiply replace_(impe1,p,impe2,q,cfe1,A,cfe2,B,fle1,fline1,fle2,fline1);
-** make sure to replace all bare masses by their renormalised counterparts
-id M(fl?) = (1+dZm)*M(fl);
-** get rid of higher orders
-id dZm*dZm = 0;
-argument;
-** make sure to replace all bare masses by their renormalised counterparts
-id M(fl?) = (1+dZm)*M(fl);
-** get rid of higher orders
-id dZm*dZm = 0;
-endargument;
-#do dummy=0,100
-sum spt`dummy';
-#enddo
+multiply replace_(impe1,p,impe2,q,cfe1,A,cfe2,B,fle1,fline1,fle2,fline1)*Test(2);
 *--#] preparations :
-
-*--#[ gammas :
-#call project2Clifford(fline1)
-id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?) = 0;
-id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?,spt5?,spt6?) = 0;
-#do dummy=1,`sptcnt'
-   sum sptt`dummy';
-#enddo
-** ugly hack to drop dummy indices
-Contract;
-.sort;
-
-** Sort indices occuring in Gamma
-id GAMMA(fl?,spt?,spt?) = 4;
-
-id e_(spt1?,spt2?,spt3?,spt4?) = LC(spt1,spt2,spt3,spt4);
-Contract;
-.sort;
-multiply replace_(N1_?,spt0,N2_?,spt1);
-*--#] gammas :
-
-*--#[ momenta :
-id p.p = P2;
-id q.q = Q2;
-id p.q = PQ;
-
-id p(spt1?) = P(spt1);
-id q(spt1?) = Q(spt1);
-*--#] momenta :

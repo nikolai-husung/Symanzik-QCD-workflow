@@ -2,36 +2,10 @@
 #define nF "0";
 #define nB "2";
 #define ng "0";
+Set extIndices: spte1,spte2;
 *--#] legs :
 
 *--#[ preparations :
-multiply replace_(impe1,p,impe2,q,cole1,a,cole2,b,spte1,mu,spte2,nu);
+multiply replace_(impe1,p,impe2,q,cole1,a,cole2,b)*Test(2);
 *--#] preparations :
 
-*--#[ gammas :
-id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?) = 0;
-id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?,spt5?,spt6?) = 0;
-#do dummy=0,100
-   sum sptt`dummy';
-   sum spt`dummy';
-#enddo
-** ugly hack to drop dummy indices
-Contract;
-id GAMMA(fl?,spt?,spt?) = 4;
-.sort;
-
-id e_(spt1?,spt2?,spt3?,spt4?) = LC(spt1,spt2,spt3,spt4);
-
-Contract;
-.sort;
-multiply replace_(N1_?,spt0,N2_?,spt1);
-*--#] gammas :
-
-*--#[ momenta :
-id p.p = P2;
-id p.q = PQ;
-id q.q = Q2;
-
-id p(spt1?) = P(spt1);
-id q(spt1?) = Q(spt1);
-*--#] momenta :

@@ -94,13 +94,16 @@ make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
    to 1-loop order are applied.
 
 
-**Remark:** The simplified results are evaluated at fixed index permutations
-(mu,nu,rho,kappa,lambda) = (1,1,1,1,1), (1,1,1,1,2), ...
-that can yield different answers, i.e. we do not consider the permutation
-(2,2,2,2,2) etc. Notice that this currently generates quite a lot of overhead
-if one is e.g. interested in a scalar operator inserted into a fermion 4-point
-function, because there are no Lorentz indices present and yet all expressions
-are treated identically.
+**Remark:** The simplified results are evaluated at fixed index permutations 
+e.g. (mu,nu,kappa,lambda) = (1,1,1,1), (1,1,1,2), ..., for the background
+field 2-point function with background field indices mu and nu such that they
+yield different answers, i.e. we do not consider the permutation (2,2,2,2) etc.
+Generally kappa and lambda are assumed to be the Lorentz indices of the local
+field. Notice that this currently generates some overhead if one is interested
+in the insertion of a scalar local field, because there are no Lorentz indices
+present for the local field itself and yet all expressions are treated
+identically, i.e. including permutations for the presumed (up to) two Lorentz
+indices of the local field.
 
 
 Use of Mathematica scripts

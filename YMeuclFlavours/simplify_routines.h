@@ -3,8 +3,8 @@
 * This software is distributed under the terms of the MIT License
 
 *** define symbols used to mask syntax for Mathematica
-CFunction P,Q,R,S,PERM;
-Symbol P2,Q2,R2,S2,PQ,PR,PS,QR,QS,RS,I,dZm;
+CFunction PERM;
+Symbol I,dZm;
 
 Vector v, w;
 
@@ -12,7 +12,7 @@ Set vectors: p,q,r,s;
 
 Set evectors: kappahat, lambdahat;
 Set indices: kappa, lambda;
-
+Set extIndicesMask: sptMask1,...,sptMask5;
 
 CTensor GAMMA,GAMMA5;
 
@@ -38,8 +38,26 @@ id GAMMA(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,imp1?,imp2?) = imp1.imp2;
 
 #procedure handlePermutations
 *** introduce explicit spacetime indices to handle redundancies (mu,nu,rho,kappa,lambda)
-multiply PERM(1,1,1,1,1)+perm_(PERM,1,1,1,1,2)+perm_(PERM,1,1,1,2,2)+perm_(PERM,1,2,2,2,3)+perm_(PERM,1,2,2,3,3)+perm_(PERM,1,1,2,3,4);
-id PERM(spt0?,spt1?,spt2?,spt3?,spt4?) = PERM(spt0,spt1,spt2,spt3,spt4)*replace_(mu,spt0,nu,spt1,rho,spt2,kappa,spt3,lambda,spt4);
+id Test(n?$count) = 1;
+switch $count;
+   case 1;
+      multiply Test(sptMask1)*PERM(spt,1);
+   break;
+   case 2;
+      multiply Test(sptMask1,sptMask2)*(PERM(1,1)+perm_(PERM,1,2));
+   break;
+   case 3;
+      multiply Test(sptMask1,sptMask2,sptMask3)*(PERM(1,1,1)+perm_(PERM,1,1,2)+perm_(PERM,1,2,3));
+   break;
+   case 4;
+      multiply Test(sptMask1,sptMask2,sptMask3,sptMask4)*(PERM(1,1,1,1)+perm_(PERM,1,1,1,2)+perm_(PERM,1,1,2,2)+perm_(PERM,1,1,2,3)+perm_(PERM,1,2,3,4));
+   break;
+endswitch;
+
+if(count(Test,1)>0);
+   repeat id Test(spt?extIndicesMask[n],?args)*PERM(l?{1,2,3,4},?args2) = replace_(extIndices[n], l)*Test(?args)*PERM(?args2,l);
+   id Test = 1;
+endif;
 
 *** handle projected Dirac matrices
 id GAMMA(fl?,spt0?!{1,2,3,4},spt1?!{1,2,3,4})*e_(spt0?,spt1?,spt2?,spt3?) = 2*sum_(sptt0,1,3,sum_(sptt1,sptt0+1,4,GAMMA(fl,sptt0,sptt1)*e_(sptt0,sptt1,spt2,spt3)));

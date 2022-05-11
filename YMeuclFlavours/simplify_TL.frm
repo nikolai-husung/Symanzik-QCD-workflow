@@ -13,6 +13,8 @@ Auto Index spt=4;
 #include dimReg.h
 #include finaliseDimReg.h
 
+#include simplifyRules/`name' # legs
+
 #include simplify_routines.h
 
 Local tl = (

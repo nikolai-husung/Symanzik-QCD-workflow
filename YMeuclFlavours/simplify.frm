@@ -4,13 +4,15 @@
 
 Format mathematica;
 
-Index A,B,C,E,kappa,lambda,mu,nu,rho;
-Auto Index spt=4;
+Index A,B,C,E,kappa,lambda;
+Auto Index spt;
 
 #include defaults.h
 #include qgraf2form.h
 #include dimReg.h
 #include finaliseDimReg.h
+
+#include simplifyRules/`name' # legs
 
 #include simplify_routines.h
 
@@ -18,15 +20,13 @@ Auto Index spt=4;
 #define dZA "(11/3*Nc - 4/3*FLOOP*TF)*g^2/2/eps";
 #define dZg "(11/3*Nc - 4/3*FLOOP*TF)*g^2/2/eps";
 
-#include simplifyRules/`name' # legs
-
 
 Local loop =
 #include ../`cnt'/`name'/`o'_`o2'.1PI
 ;
 
 Local tl = 
-#if((`name'!="P") && (`name'!="OP") && (`name'!="OO") && (`name'!="B2OO") && (`name'!="B3OO") && (`name'!="F2OO") && (`name'!="F2BOO") && (`name'!="F2F2OO") && (`name'!="F4OO") && (`name'!="B2OP") && (`name'!="B3OP") && (`name'!="F2OP") && (`name'!="F2BOP") && (`name'!="FFOP") && (`name'!="FFBOP"))
+#if((`name'!="P") && (`name'!="OP") && (`name'!="OO") && (`name'!="B2OO") && (`name'!="B3OO") && (`name'!="F2OO") && (`name'!="F2BOO") && (`name'!="F2F2OO") && (`name'!="F4OO") && (`name'!="B2OP") && (`name'!="F2OP") && (`name'!="F2BOP") && (`name'!="FFOP") && (`name'!="FFBOP"))
 #include ../`cnt'/`name'_TL/`o'_`o2'.1PI
 #endif
 ;
@@ -58,7 +58,6 @@ argument;
    id ZERO = 0;
 endargument;
 
-multiply replace_(impe1,p,impe2,q,impe3,r,impe4,s,spte1,mu,spte2,nu,spte3,rho);
 #include simplifyRules/`name' # preparations
 
 
