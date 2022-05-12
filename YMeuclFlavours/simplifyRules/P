@@ -2,8 +2,9 @@
 #define nF "0";
 #define nB "0";
 #define ng "0";
-Set extIndices: ;
+Set extIndices: kappa,lambda;
 *--#] legs :
 
 *--#[ preparations :
+multiply Test(2);
 *--#] preparations :

@@ -170,6 +170,16 @@ Loads the 1-loop results for the graph specified by `"name"` for a single
 insertion of the operator labelled `"op1"` combined with another insertion from
 the set of operators contained in `"op2"`.
 
+```Mathematica
+buildEqs[unfixed, coeffs]
+```
+Takes the 1-loop poles with an appropriate linear combination of potential
+counterterms added. Each counterterm should be accompanied by a unique
+coefficient `c` that is then handed over in `coeffs = {...,c,...}`. The function
+derives a system of equations from the requirement, that `unfixed` should be
+zero, splitting all terms into a minimal basis of symbols. Eventually the result
+of `Solve[...,coeffs]` is returned.
+
 
 ### How to generate Feynman rules
 
@@ -204,3 +214,11 @@ must be treated manually. Also the field specific Lorentz indices `kappa` and
 `lambda` should be replaced by their respective vector counterparts `kappahat`
 and `lambdahat`. For local fields denoted as `P` we also need to replace any
 occurrence of `anchor(...)` with `src(...)`.
+
+
+## Acknowledgement
+
+I need to thank Hubert Simma for encouraging me as well as motivating me to
+clean up this code and make it puclibly available. In the process a lot of the
+automation was refined and improved. This should now speed up the actual
+compuations for local fields, including the actual renormalisation etc.
