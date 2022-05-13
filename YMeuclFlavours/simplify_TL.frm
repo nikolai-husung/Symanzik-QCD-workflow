@@ -44,7 +44,6 @@ id DenomConst(imp?,n?) = DenomConst(imp.imp,n);
 id Denom(imp?,Omega?,n?) = Denom(imp.imp+Omega,n);
 
 
-multiply replace_(impe1,p,impe2,q,impe3,r,impe4,s,spte1,mu,spte2,nu,spte3,rho);
 #include simplifyRules/`name' # preparations
 
 id DenomConst(m?,n?) = Denom(m,n);
