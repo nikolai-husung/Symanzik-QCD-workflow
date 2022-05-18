@@ -41,7 +41,7 @@ id GAMMA(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,imp1?,imp2?) = imp1.imp2;
 id Test(n?$count) = 1;
 switch $count;
    case 1;
-      multiply Test(sptMask1)*PERM(spt,1);
+      multiply Test(sptMask1)*PERM(1);
    break;
    case 2;
       multiply Test(sptMask1,sptMask2)*(PERM(1,1)+perm_(PERM,1,2));
@@ -60,18 +60,17 @@ if(count(Test,1)>0);
 endif;
 
 *** handle projected Dirac matrices
-id GAMMA(fl?,spt0?!{1,2,3,4},spt1?!{1,2,3,4})*e_(spt0?,spt1?,spt2?,spt3?) = 2*sum_(sptt0,1,3,sum_(sptt1,sptt0+1,4,GAMMA(fl,sptt0,sptt1)*e_(sptt0,sptt1,spt2,spt3)));
-id GAMMA(?args,spt?!{1,2,3,4})*e_(spt?,spt1?,spt2?,spt3?) = sum_(sptt0,1,4,GAMMA(?args,sptt0)*e_(sptt0,spt1,spt2,spt3));
-id GAMMA(fl?,spt?!{1,2,3,4},spt4?)*e_(spt?,spt1?,spt2?,spt3?) = sum_(sptt0,1,4,GAMMA(fl,sptt0,spt4)*e_(sptt0,spt1,spt2,spt3));
-id GAMMA5(fl?,spt?!{1,2,3,4})*e_(spt?,spt1?,spt2?,spt3?) = sum_(sptt0,1,4,GAMMA5(fl,sptt0)*e_(sptt0,spt1,spt2,spt3));
-id GAMMA(?args,v?vectors) = sum_(sptt0,1,4,v(sptt0)*GAMMA(?args,sptt0));
-id GAMMA(fl?,v?vectors,spt?) = sum_(sptt0,1,4,v(sptt0)*GAMMA(fl,sptt0,spt));
-id GAMMA5(fl?,v?vectors) = sum_(sptt0,1,4,v(sptt0)*GAMMA5(fl,sptt0));
+id GAMMA(?args,spt?!{1,2,3,4}) = sum_(sptt0,1,4,d_(sptt0,spt)*GAMMA(?args,sptt0));
+id GAMMA(fl?,spt?!{1,2,3,4},spt1?) = sum_(sptt0,1,4,d_(sptt0,spt)*GAMMA(fl,sptt0,spt1));
+id GAMMA5(fl?,spt?!{1,2,3,4}) = sum_(sptt0,1,4,d_(sptt0,spt)*GAMMA5(fl,sptt0));
+
+
 id GAMMA(fl?,spt?{2,3,4},1) = -GAMMA(fl,1,spt);
 id GAMMA(fl?,spt?{3,4},1) = -GAMMA(fl,1,spt);
 id GAMMA(fl?,spt?{3,4},2) = -GAMMA(fl,2,spt);
 id GAMMA(fl?,4,3) = -GAMMA(fl,3,4);
 id GAMMA(fl?,spt?,spt?) = 1;
+
 
 
 *** handle (generalised) Kronecker deltas, Levi-Civita tensors etc.

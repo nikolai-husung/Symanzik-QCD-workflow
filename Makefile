@@ -161,6 +161,10 @@ $(addprefix $(addsuffix /, $(addprefix $(2)/, $(1))), $(addsuffix .1PI, $(addpre
 	cd ../..
 endef
 
+_pos = $(if $(findstring $1,$2),$(call _pos,$1,\
+       $(wordlist 2,$(words $2),$2),x $3),$3)
+pos = $(words $(call _pos,$1,$2))
+
 $(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossdep1PI_TL, $(graph), P, none, $(_op) ))))
 $(foreach graph, $(GRAPHSo_TL), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), O, $(_op), none ))))
 
@@ -184,10 +188,6 @@ $(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ) )), $
 	$(FORM) -p ../../../$(FORM_PATH) -D $$(addprefix cnt=,$(2)) -D $$(addprefix name=,$(1)) -D $$(addprefix o=, $(3)) -D $$(addprefix o2=, $(4)) $(_flag) simplify; \
 	cd ../../..
 endef
-
-_pos = $(if $(findstring $1,$2),$(call _pos,$1,\
-       $(wordlist 2,$(words $2),$2),x $3),$3)
-pos = $(words $(call _pos,$1,$2))
 
 
 $(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), P, none, $(_op) ))))
