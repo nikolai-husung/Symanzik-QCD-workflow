@@ -47,7 +47,7 @@
 
 ***** 3 gluon vertex *****
 id vert(gluon(p?,alpha?,b?,fl1?),gluon(q?,beta?,c?,fl2?),gluon(r?,gamma?,d?,fl3?)) =
-   + g*FC(b,c,d)*(
+   + g*(
       + FC(b,c,d)*d_(alpha,beta)*p(gamma)*i_
  - FC(b,c,d)*d_(alpha,beta)*q(gamma)*i_
  - FC(b,c,d)*d_(alpha,gamma)*p(beta)*i_
@@ -69,17 +69,16 @@ id vert(gluon(p?,alpha?,b?,fl1?),gluon(q?,beta?,c?,fl2?),bgf(r?,gamma?,d?,fl3?))
  - FC(b,c,d)*d_(beta,gamma)*r(alpha)*i_);
 
 
-***** 1 gluon 2 bgf vertex *****
-id vert(field?{gluon,bgf}(p?,alpha?,b?,fl1?),bgf(q?,beta?,c?,fl2?),bgf(r?,gamma?,d?,fl3?)) =
+***** 3 bgf / 1 gluon 2 bgf vertex *****
+id vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),bgf(q?,beta?,c?,fl2?),bgf(r?,gamma?,d?,fl3?)) =
    + g*(
       + FC(b,c,d)*d_(alpha,beta)*p(gamma)*i_
  - FC(b,c,d)*d_(alpha,beta)*q(gamma)*i_
- + FC(b,c,d)*d_(alpha,beta)*r(gamma)*i_*xi^-1
  - FC(b,c,d)*d_(alpha,gamma)*p(beta)*i_
- - FC(b,c,d)*d_(alpha,gamma)*q(beta)*i_*xi^-1
  + FC(b,c,d)*d_(alpha,gamma)*r(beta)*i_
  + FC(b,c,d)*d_(beta,gamma)*q(alpha)*i_
  - FC(b,c,d)*d_(beta,gamma)*r(alpha)*i_);
+
 
 ***** 2 ghost 1 gluon vertex *****
 id vert(aghost(p?,spt1?,b?,fl1?),ghost(q?,spt2?,c?,fl2?),gluon(r?,alpha?,d?,fl3?)) =
@@ -117,4 +116,3 @@ id prop(gluon,imp?,spt1?,b?,fl1?,spt2?,c?,fl2?) =
    + Denom(imp,0,1)*d_(spt1,spt2)*d_(b,c)
    - Denom(imp,0,2)*d_(b,c)*imp(spt1)*imp(spt2)*(1-xi);
 
-** (g3,c2g) = +,-

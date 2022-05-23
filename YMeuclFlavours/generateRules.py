@@ -40,8 +40,13 @@ for p in v[1:]:
    As = f.split("A")
    fld = As[0]
    i=1
+   # The occurrence of the background field gauge fixing term requires some
+   # additional care.
    for A in As[1:]:
-      fld += "field%i?{gluon,bgf}"%i + As[i]
+      if name != "QCD":
+         fld += "field%i?{gluon,bgf}"%i + As[i]
+      else:
+         fld += "gluon" + As[i]
       i+=1
       
    fields.append(fld)

@@ -184,7 +184,7 @@ Psibar(fl0,imp0,col0)*F(imp1,imp2,spt0,spt1,col1)*Psi(fl1,imp3,col3)*TC(col1,col
 *--#] qFQ:
 
 *--#[ qGamma5FtildeQ:
-Psibar(fl0,imp0,col0)*GAMMA5(flc0)*e_(kappa,lambda,spt0,spt1)*F(imp1,imp2,spt0,spt1,col1)*Psi(fl1,imp3,col3)*TC(col1,col0,col3)*FL(fl0,flc0,fl1)*OPF(flc0)
+Psibar(fl0,imp0,col0)*e_(kappa,lambda,spt0,spt1)*F(imp1,imp2,spt0,spt1,col1)*Psi(fl1,imp3,col3)*TC(col1,col0,col3)*FL(fl0,G5,fl1)
 *--#] qGamma5FtildeQ:
 
 *--#[ qSigmaD2lrQ:
@@ -234,6 +234,6 @@ D(spt0)*Psibar(fl0,imp0,cf0)*FL(fl0,G5,spt1,fl1)*Psi(fl1,imp3,cf3)*e_(kappa,lamb
 **** Needed to generate pure QCD Feynman rules ****
 *--#[ QCD:
 + F(imp0,imp1,spt0,spt1,col0)*F(imp2,imp3,spt3,spt2,col1)*TC(col0,cf0,cf2)*TC(col1,cf2,cf0)/g^2*DO4v(spt1,spt2)*DO4v(spt3,spt0)/2
-- Psibar(fl0,imp0,cf0)*GAMMA(flc0,spt0)*Dcovf(imp1,spt1,cf0,cf1)*Psi(fl1,imp4,cf1)*DO4v(spt0,spt1)*FL(fl0,flc0,fl1)*OPF(flc0)
+- Psibar(fl0,imp0,cf0)*Dcovf(imp1,spt1,cf0,cf1)*Psi(fl1,imp4,cf1)*DO4v(spt0,spt1)*FL(fl0,spt0,fl1)
 *--#] QCD:
 
