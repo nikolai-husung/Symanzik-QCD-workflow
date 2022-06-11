@@ -61,17 +61,19 @@ require some manual cleanup.
 YMeuclFlavours/feynmanRules/`name`.h and add it to the appropriate collection
 of operators in the Makefile (P3,...,P5,dP4,...,O5,O6, etc.) depending on
 whether it is a correction belonging to a local field or the action.
-4. Now, all that remains to be done is to run `make ...`, which will generate
-all 1-loop UV divergences for the operators listed in the Makefile. The
-functionaliy of the Makefile is explained in the following. Eventually all
-that remains to be done is to perform the 1-loop renormalisation. For this I
-supplied some [Mathematica notebooks](#use-of-Mathematica-scripts) as guidance
-and made the final results syntax compatible to Mathematica.
-5. For more complicated operators e.g. more free Lorentz indices, higher mass-
-dimensions etc., the Makefile must be modified. Most changes should be doable
-by restricting to the various listings of operators and n-point functions.
-However, the other scripts may require quite a bit of work as not everything
-has been implemented with the full generality in mind. 
+4. Now, one can run `make ...`, which will generate all 1-loop UV divergences
+for the operators listed in the Makefile. The functionaliy of the Makefile is
+explained in the following. Eventually all that remains to be done is to perform
+the 1-loop renormalisation. For this I supplied some
+[Mathematica notebooks](#use-of-Mathematica-scripts) as guidance and made the
+final results syntax compatible to Mathematica.
+5. For simple changes, e.g. different operator bases with the same 
+mass-dimension and the same maximal number of free Lorentz indices, only the
+the various listings of operators in the Makefile must be changed. For more
+complicated operators e.g. more free Lorentz indices, higher mass-dimensions,
+n-point functions with larger n etc., the Makefile must be modified. However,
+for some changes the other scripts may require quite a bit of work as not
+everything has been implemented with the full generality in mind.
 
 
 ### Capabilites of the Makefile
@@ -94,7 +96,7 @@ Eventually the available commands are:
 make obs{$(GRAPHSo) $(GRAPHSp) $(GRAPHSoo) $(GRAPHSop)}
 ```
    Compute 1PI 1-loop graphs in dimensional regularisation for given observable.
-   While a temparary result without translation into Mathematica notation is
+   While a temporary result without translation into Mathematica notation is
    kept in {O|P|OO|OP}/obs/op.1PI, the final result is stored in the folder
    results/{O|P|OO|OP}/obs/op.UVonly.res. The letters `P` and `O` indicate
    single insertions of the local field and an operator of the effective action
@@ -112,7 +114,7 @@ make obs{$(GRAPHSo)_TL $(GRAPHSp)_TL $(GRAPHSoo)_TL $(GRAPHSop)_TL}
    Compute 1PI tree-level graphs for given observable. Notice that contact term
    renormalisation with the strategy used here does not require tree-level
    computations of OP|OO contact terms due to considering 1PI graphs.
-   Again a temparary result without translation into Mathematica notation is
+   Again a temporary result without translation into Mathematica notation is
    kept in {O|P|OO|OP}/obs/op.1PI and the final result is stored in the folder
    results/{O|P|OO|OP}/obs/op.UVonly.res .
 
@@ -218,7 +220,7 @@ occurrence of `anchor(...)` with `src(...)`.
 
 ## Acknowledgement
 
-I need to thank Hubert Simma for encouraging me as well as motivating me to
-clean up this code and make it puclibly available. In the process a lot of the
+I need to thank Hubert Simma for encouraging as well as motivating me to
+clean up this code and make it publicly available. In the process a lot of the
 automation was refined and improved. This should now speed up the actual
 compuations for local fields, including the actual renormalisation etc.
