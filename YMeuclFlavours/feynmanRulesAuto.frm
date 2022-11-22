@@ -15,7 +15,7 @@ Symbol CF,CA,TF,xi,Nc,Qauto,quark,etaC;
 Autodeclare Index spt,co,cf,ind,fl;
 CTensor FC(antisymmetric),DC(symmetric),TC,Trtemp,Tr(cyclesymmetric);
 CFunction DO4v(symmetric),MOMENTA,COLs,CFs,SPTs,FLs,ordering(antisymmetric),DUMMY,vert,L;
-CFunction Bbuffer,Abuffer,Psibarbuffer,Psibuffer,Psib,Psibarb,Bb,Ab,M;
+CFunction Bbuffer,Abuffer,Psibarbuffer,Psibuffer,Cbarbuffer,Cbuffer,Psib,Psibarb,Bb,Ab,M,Cbarb,Cb;
 CFunction OPF,FL,FLtest;
 Index G5=0;
 ** F = [D,D]/g
@@ -100,6 +100,7 @@ id A(?args) = g*A(?args);
 
 ** Make sure to add BGF gauge-fixing term to the QCD action.
 ** Should be postponed after the substitution A -> A+B.
+**#if(1==QCD)
 #if(`op'==QCD)
 ** In all gauge-invariant cases the substitution does not yield new information.
 ** Having the BGF gauge-fixing term present changes that.
@@ -127,6 +128,7 @@ repeat;
 endrepeat;
 id BLOB = 1;
 id D(spt?) = 0;
+
 
 ** collect only desired power in the coupling
 **if(count(g,1)!=`POW') discard;
@@ -156,12 +158,28 @@ id D(spt?) = 0;
    if(match(B(spt?,imp?,col?))>0) redefine dummy "0";
    .sort;
 #enddo
+#do dummy=1,1
+   id,once C(imp?,col?) = Cbuffer(ind`icnt',imp,col)*C(ind`icnt');
+   redefine icnt "{`icnt'+1}";
+   if(match(C(imp?,col?))>0) redefine dummy "0";
+   .sort;
+#enddo
+#do dummy=1,1
+   id,once Cbar(imp?,col?) = Cbarbuffer(ind`icnt',imp,col)*Cbar(ind`icnt');
+   redefine icnt "{`icnt'+1}";
+   if(match(C(imp?,col?))>0) redefine dummy "0";
+   .sort;
+#enddo
+
 
 ** construct all possible permutations of external fields (currently fermions and gauge bosons)
 repeat;
-   id A?{Psi,A,B}(?args)*Psibar(?args2) = Psibar(?args2)*A(?args);
-   id A?{A,B}(?args)*Psi(?args2) = Psi(?args2)*A(?args);
-   id B(?args)*A(?args2) = A(?args2)*B(?args);
+   id Psi(?args)*Psibar(?args2) = -Psibar(?args2)*Psi(?args);
+   id A?{Cbar,C,A,B}(?args)*Psibar(?args2) = Psibar(?args2)*A(?args);
+   id A?{Cbar,C,A,B}(?args)*Psi(?args2) = Psi(?args2)*A(?args);
+   id B?{Cbar,C,B}(?args)*A(?args2) = A(?args2)*B(?args);
+   id A?{Cbar,C}(?args)*B(?args2) = B(?args2)*A(?args);
+   id C(?args)*Cbar(?args2) = -Cbar(?args2)*C(?args);
 endrepeat;
 chainin Psibar;
 id Psibar(?args) = perm_(1,Psibar,?args);
@@ -171,23 +189,34 @@ chainin A;
 id A(?args) = perm_(A,?args);
 chainin B;
 id B(?args) = perm_(B,?args);
+chainin C;
+id C(?args) = perm_(1,C,?args);
+chainin Cbar;
+id Cbar(?args) = perm_(1,Cbar,?args);
+
 id Psi(?args) = Psib(?args);
 id Psibar(?args) = Psibarb(?args);
 id A(?args) = Ab(?args);
 id B(?args) = Bb(?args);
+id C(?args) = Cb(?args);
+id Cbar(?args) = Cbarb(?args);
 if(count(Psibarb,1)==0) multiply Psibarb;
 if(count(Psib,1)==0) multiply Psib;
 if(count(Ab,1)==0) multiply Ab;
 if(count(Bb,1)==0) multiply Bb;
+if(count(Cb,1)==0) multiply Cb;
+if(count(Cbarb,1)==0) multiply Cbarb;
 
-id Psibarb(?args1)*Ab(?args2)*Bb(?args4)*Psib(?args3) = FIELDS(?args1,?args3,?args2,?args4);
+id Psibarb(?args1)*Ab(?args2)*Bb(?args4)*Psib(?args3)*Cbarb(?args5)*Cb(?args6) = FIELDS(?args1,?args3,?args5,?args6,?args2,?args4);
 multiply MOMENTA(p,q,r,s,t,u)*COLs(b,c,d,e,f,h)*CFs(cfp1,...,cfp6)*SPTs(sptp1,...,sptp6)*FLs(flp1,...,flp6);
 #do dummy=1,1
    id FIELDS(ind?,?args)*Psibarbuffer(ind?,fl?,imp?,cf?)*MOMENTA(imp2?,?args2)*SPTs(spt?,?args6)*CFs(cf2?,?args3)*FLs(fl2?,?args4) = FIELDS(?args)*MOMENTA(?args2)*SPTs(?args6)*CFs(?args3)*FLs(?args4)*replace_(imp,imp2,cf,cf2,fl,fl2)*vert(Psibar(imp2,cf2,fl2));
    id FIELDS(ind?,?args)*Psibuffer(ind?,fl?,imp?,cf?)*MOMENTA(imp2?,?args2)*SPTs(spt?,?args6)*CFs(cf2?,?args3)*FLs(fl2?,?args4) = FIELDS(?args)*MOMENTA(?args2)*SPTs(?args6)*CFs(?args3)*FLs(?args4)*replace_(imp,imp2,cf,cf2,fl,fl2)*vert(Psi(imp2,cf2,fl2));
    id FIELDS(ind?,?args)*Abuffer(ind?,spt?,imp?,col?)*MOMENTA(imp2?,?args2)*COLs(col2?,?args3)*SPTs(spt2?,?args4) = FIELDS(?args)*MOMENTA(?args2)*COLs(?args3)*SPTs(?args4)*replace_(imp,imp2,col,col2,spt,spt2)*vert(A(imp2,spt2,col2));
    id FIELDS(ind?,?args)*Bbuffer(ind?,spt?,imp?,col?)*MOMENTA(imp2?,?args2)*COLs(col2?,?args3)*SPTs(spt2?,?args4) = FIELDS(?args)*MOMENTA(?args2)*COLs(?args3)*SPTs(?args4)*replace_(imp,imp2,col,col2,spt,spt2)*vert(B(imp2,spt2,col2));
-   if(count(Psibuffer,1,Abuffer,1,Bbuffer,1,Psibarbuffer,1)>0) redefine dummy "0";
+   id FIELDS(ind?,?args)*Cbarbuffer(ind?,imp?,col?)*MOMENTA(imp2?,?args2)*COLs(col2?,?args3)*SPTs(spt2?,?args4) = FIELDS(?args)*MOMENTA(?args2)*COLs(?args3)*SPTs(?args4)*replace_(imp,imp2,col,col2)*vert(Cbar(imp2,col2));
+   id FIELDS(ind?,?args)*Cbuffer(ind?,imp?,col?)*MOMENTA(imp2?,?args2)*COLs(col2?,?args3)*SPTs(spt2?,?args4) = FIELDS(?args)*MOMENTA(?args2)*COLs(?args3)*SPTs(?args4)*replace_(imp,imp2,col,col2)*vert(C(imp2,col2));
+   if(count(Psibuffer,1,Abuffer,1,Bbuffer,1,Psibarbuffer,1,Cbuffer,1,Cbarbuffer,1)>0) redefine dummy "0";
    .sort;
 #enddo
 id FIELDS?{FIELDS,MOMENTA,COLs,CFs,SPTs,FLs}(?args) = 1;

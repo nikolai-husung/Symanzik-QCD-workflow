@@ -41,18 +41,21 @@ dP5 = $(addprefix d2, $(P3)) \
    \
    d2VnO4 \
    d2AnO4 gradFFtilde \
-   d2TnO4 
+   d2TnO4
 
-dP4 = gradP gradV rotA
-#divT
+dP4 = gradP gradV
 
 # EOM vanishing operators -> needed for background field method [D0 = Dslash+m]
-Peom = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ \
-   qD0lr2Q            qD02lrQ \
+
+Peom4 = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ
+
+Peom5 = qD0lr2Q       qD02lrQ \
    qGamma5D0lr2Q      qGamma5D02lrQ \
    qGammaD0lr2Q       qGammaD02lrQ       gradqD0lrQ       qDD0lrQ \
    qGammaGamma5D0lr2Q qGammaGamma5D02lrQ gradqGamma5D0lrQ qGamma5DD0lrQ \
    qSigmaD0lr2Q       qSigmaD02lrQ       gradqGammaD0lrQ  qGammaDD0lrQ rotqGamma5GammaD0Q
+
+Peom = $(Peom4) $(Peom5)
       
 
 # Operators considered

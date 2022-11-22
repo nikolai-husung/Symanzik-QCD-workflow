@@ -22,7 +22,7 @@ rules = []
 for p in v[1:]:
    f,r = p.replace("\n","").replace(" ","").split("))*(",1)
    
-   f = (f.replace("Psibar","aquark").replace("Psi","`Q'")+"),anchor(?args)")
+   f = (f.replace("Psibar","aquark").replace("Psi","`Q'")+"),src(?args)")
    for m in ["p","q","r","s","t","u","alpha","beta","delta","gamma","mu","nu"]   + ["cf%i"%i for i in range(1,7)]:
       f = f.replace(m+",",m+"?,")
    for m in ["fl%i"%i for i in range(1,7)]:
