@@ -17,8 +17,8 @@ Auto Index spt;
 #include simplify_routines.h
 
 #define dZF "(-xi)*CF*g^2/2/eps";
-#define dZA "(11/3*Nc - 4/3*FLOOP*TF)*g^2/2/eps";
-#define dZg "(11/3*Nc - 4/3*FLOOP*TF)*g^2/2/eps";
+#define dZA "(11/3*Nc - 4/3*Nf*TF)*g^2/2/eps";
+#define dZg "(11/3*Nc - 4/3*Nf*TF)*g^2/2/eps";
 
 
 Local loop =
@@ -84,7 +84,8 @@ id i_ = I;
 
 .sort;
 Local temp = loop + (`nF'*`dZF' + `nB'*`dZg' - `ng'*`dZg')*tl;
-Format mathematica;
+.sort;
+drop loop, tl;
 
 id DenomConst(m?,n?) = Denom(m,n);
 
