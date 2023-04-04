@@ -6,5 +6,5 @@ Set extIndices: sptTestDUMMY;
 *--#] legs :
 
 *--#[ preparations :
-multiply replace_(impe1,p,impe2,q,cfe1,A,cfe2,B,fle1,fline1,fle2,fline1)*Test(0);
+multiply replace_(impe1,p,impe2,q,cfe1,A,cfe2,B,fle1,fline1,fle2,fline1,tie1,tiline1,tie2,tiline1)*Test(0);
 *--#] preparations :

@@ -6,5 +6,5 @@ Set extIndices: spte3;
 *--#] legs :
 
 *--#[ preparations :
-multiply replace_(impe1,p,impe2,q,impe3,r,cfe1,A,cfe2,B,cole3,a,fle1,fline1,fle2,fline1)*Test(1);
+multiply replace_(impe1,p,impe2,q,impe3,r,cfe1,A,cfe2,B,cole3,a,fle1,fline1,fle2,fline1,tie1,tiline1,tie2,tiline1)*Test(1);
 *--#] preparations :
