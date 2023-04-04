@@ -57,6 +57,10 @@ id i_ = I;
 #call project2Clifford(fline1)
 #call project2Clifford(fline2)
 
+
+#call project2CliffordTaste(tiline1)
+#call project2CliffordTaste(tiline2)
+
 Contract;
 
 id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);

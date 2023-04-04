@@ -1,6 +1,6 @@
 ***** O(a^2) counterpart of the 4-0 gluon 0-4 bgf vertex *****
 #do dummy=1,1
-   id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?),field4?{gluon,bgf}(s?,delta?,e?,fl4?),anchor(?args)) =
+   id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?,ti1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,e?,fl4?,ti4?),anchor(?args)) =
       + 4*FC(b,c,col`ccnt')*FC(d,e,col`ccnt')*d_(alpha,gamma)*d_(beta,delta)*p.r*g^2
       + 2*FC(b,c,col`ccnt')*FC(d,e,col`ccnt')*d_(alpha,gamma)*d_(beta,delta)*p.s*g^2
       + 2*FC(b,c,col`ccnt')*FC(d,e,col`ccnt')*d_(alpha,gamma)*d_(beta,delta)*q.r*g^2
@@ -104,7 +104,7 @@
 #enddo
 
 ***** O(a^2) counterpart of the 0-3 gluon 3-0 bgf vertex *****
-id vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?),anchor(?args)) = (
+id vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?,ti1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?,ti3?),anchor(?args)) = (
    + 2*FC(b,c,d)*p(beta)*p(gamma)*q(alpha)*i_*g
    - 2*FC(b,c,d)*p(beta)*p(gamma)*r(alpha)*i_*g
    - 2*FC(b,c,d)*p(beta)*q(alpha)*q(gamma)*i_*g
@@ -126,13 +126,13 @@ id vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c?,fl2
 
 
 ***** O(a^2) 2-gluon vertex *****
-id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?),anchor(?args)) =
+id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?,ti1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?,ti2?),anchor(?args)) =
    - 2*d_(alpha,beta)*d_(b,c)*p.q^2
    + 2*d_(b,c)*p(beta)*q(alpha)*p.q;
 
 ***** O(a^2) 5 gluon vertex *****
 #do dummy=1,1
-   id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?),field4?{gluon,bgf}(s?,delta?,e?,fl4?),field5?{gluon,bgf}(t?,mu?,f?,fl5?),anchor(?args)) = (
+   id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?,ti1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,e?,fl4?,ti4?),field5?{gluon,bgf}(t?,mu?,f?,fl5?,ti5?),anchor(?args)) = (
       + 2*FC(b,c,col`ccnt')*FC(d,e,col{`ccnt'+1})*FC(f,col`ccnt',col{`ccnt'+1})*d_(alpha,gamma)*d_(beta,delta)*
       p(mu)*i_*g^3
       + 2*FC(b,c,col`ccnt')*FC(d,e,col{`ccnt'+1})*FC(f,col`ccnt',col{`ccnt'+1})*d_(alpha,gamma)*d_(beta,delta)*
@@ -668,7 +668,7 @@ id,once vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c
 #enddo
 
 #do dummy=1,1
-   id vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?),field4?{gluon,bgf}(s?,delta?,e?,fl4?),field5?{gluon,bgf}(t?,mu?,f?,fl5?),field6?{gluon,bgf}(u?,nu?,h?,fl6?),anchor(?args)) =
+   id vert(field1?{gluon,bgf}(p?,alpha?,b?,fl1?,ti1?),field2?{gluon,bgf}(q?,beta?,c?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,d?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,e?,fl4?,ti4?),field5?{gluon,bgf}(t?,mu?,f?,fl5?,ti5?),field6?{gluon,bgf}(u?,nu?,h?,fl6?,ti6?),anchor(?args)) =
       - 2*FC(b,c,col`ccnt')*FC(d,e,col{`ccnt'+1})*FC(f,col`ccnt',col{`ccnt'+2})*FC(h,col{`ccnt'+1},col{`ccnt'+2})*d_(alpha,gamma)
       *d_(beta,delta)*d_(mu,nu)*g^4
       + 2*FC(b,c,col`ccnt')*FC(d,e,col{`ccnt'+1})*FC(f,col`ccnt',col{`ccnt'+2})*FC(h,col{`ccnt'+1},col{`ccnt'+2})*d_(alpha,delta)

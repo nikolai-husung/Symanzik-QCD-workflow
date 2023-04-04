@@ -101,7 +101,6 @@ options = %s;
 true = vsum[ med, 0, 0];
 true = bridge[ gluon, 0, 0] ;
 true = bridge[ quark, 0, 0] ;
-true = bridge[ quark2, 0, 0] ;
 """%(MODEL,ifields,ofields,loops,""))
 f.close()
 
@@ -124,6 +123,7 @@ for i in range(2,7,2):
    text = text.replace("col-%i"%i,"colDUMMY%i"%int(i/2))
    text = text.replace("spt-%i"%i,"sptDUMMY%i"%int(i/2))
    text = text.replace("fl-%i"%i,"flineDUMMY%i"%int(i/2))
+   text = text.replace("ti-%i"%i,"tiDUMMY%i"%int(i/2))
 fields = ifields.split(",")
 for i in range(1,2*len(fields)+1,2):
    text = text.replace("p%i"%int((i+1)/2),"impe%i"%int((i+1)/2))
@@ -133,6 +133,7 @@ for i in range(1,2*len(fields)+1,2):
       text = text.replace("col-%i"%i,"cole%i"%int((i+1)/2))
    text = text.replace("spt-%i"%i,"spte%i"%int((i+1)/2))
    text = text.replace("fl-%i"%i,"fle%i"%int((i+1)/2))
+   text = text.replace("ti-%i"%i,"tie%i"%int((i+1)/2))
 
 # Make sure to replace adjoint indices with fundamental indices for
 # quarks and anti-quarks

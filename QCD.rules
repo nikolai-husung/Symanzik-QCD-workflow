@@ -6,7 +6,6 @@
  [ gluon, gluon, +, notadpole ]
  [ ghost, aghost, -, notadpole ]
  [ quark, aquark, - ]
- [ quark2, aquark2, - ]
  [ anchor, anchor, +, external ]
  [ anchor2, anchor2, +, external ]
  [ src, src, +, external ]
@@ -34,8 +33,6 @@
 % fermionic vertices (QCD)
  [ aquark, quark, gluon; med = '0']
  [ aquark, quark, bgf; med = '0']
- [ aquark2, quark2, gluon; med = '0']
- [ aquark2, quark2, bgf; med = '0']
  
 %% operators for the effective action (up to mass-dimension 6)
 
@@ -80,22 +77,7 @@
  [ aquark, quark, gluon, bgf, bgf, anchor; med = '0']
  [ aquark, quark, bgf, bgf, bgf, anchor; med = '0']
 
- [ aquark2, quark2, anchor; med = '0']
-
- [ aquark2, quark2, gluon, anchor; med = '0']
- [ aquark2, quark2, bgf, anchor; med = '0']
-
- [ aquark2, quark2, gluon, gluon, anchor; med = '0']
- [ aquark2, quark2, gluon, bgf, anchor; med = '0']
- [ aquark2, quark2, bgf, bgf, anchor; med = '0']
-
- [ aquark2, quark2, gluon, gluon, gluon, anchor; med = '0']
- [ aquark2, quark2, gluon, gluon, bgf, anchor; med = '0']
- [ aquark2, quark2, gluon, bgf, bgf, anchor; med = '0']
- [ aquark2, quark2, bgf, bgf, bgf, anchor; med = '0']
-
 % 4-fermion vertex
- [ aquark, quark, aquark2, quark2, anchor; med = '0']
  [ aquark, quark, mediator; med = '-1']
  [ mediator, mediator, anchor; med = '2']
 
@@ -141,22 +123,7 @@
  [ aquark, quark, gluon, bgf, bgf, anchor2; med = '0']
  [ aquark, quark, bgf, bgf, bgf, anchor2; med = '0']
 
- [ aquark2, quark2, anchor2; med = '0']
-
- [ aquark2, quark2, gluon, anchor2; med = '0']
- [ aquark2, quark2, bgf, anchor2; med = '0']
-
- [ aquark2, quark2, gluon, gluon, anchor2; med = '0']
- [ aquark2, quark2, gluon, bgf, anchor2; med = '0']
- [ aquark2, quark2, bgf, bgf, anchor2; med = '0']
-
- [ aquark2, quark2, gluon, gluon, gluon, anchor2; med = '0']
- [ aquark2, quark2, gluon, gluon, bgf, anchor2; med = '0']
- [ aquark2, quark2, gluon, bgf, bgf, anchor2; med = '0']
- [ aquark2, quark2, bgf, bgf, bgf, anchor2; med = '0']
-
 % 4-fermion vertex
- [ aquark, quark, aquark2, quark2, anchor2; med = '0']
  [ mediator, mediator, anchor2; med = '2']
  
 %% local fields
@@ -196,18 +163,4 @@
  [ aquark, quark, gluon, gluon, bgf, src; med = '0']
  [ aquark, quark, gluon, bgf, bgf, src; med = '0']
  [ aquark, quark, bgf, bgf, bgf, src; med = '0']
- 
- [ aquark, quark2, src; med = '0']
-
- [ aquark, quark2, gluon, src; med = '0']
- [ aquark, quark2, bgf, src; med = '0']
-
- [ aquark, quark2, gluon, gluon, src; med = '0']
- [ aquark, quark2, gluon, bgf, src; med = '0']
- [ aquark, quark2, bgf, bgf, src; med = '0']
-
- [ aquark, quark2, gluon, gluon, gluon, src; med = '0']
- [ aquark, quark2, gluon, gluon, bgf, src; med = '0']
- [ aquark, quark2, gluon, bgf, bgf, src; med = '0']
- [ aquark, quark2, bgf, bgf, bgf, src; med = '0']
 

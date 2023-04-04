@@ -14,7 +14,7 @@ Set evectors: kappahat, lambdahat;
 Set indices: kappa, lambda;
 Set extIndicesMask: sptMask1,...,sptMask5;
 
-CTensor GAMMA,GAMMA5;
+CTensor GAMMA,GAMMA5,TAU,TAU5;
 
 
 #procedure project2Clifford(fline)
@@ -33,6 +33,25 @@ redefine sptcnt "{`sptcnt'+10}";
 id GAMMA(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,spt3?,spt4?) = d_(spt3,spt4);
 id GAMMA(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,spt3?,imp?) = imp(spt3);
 id GAMMA(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,imp1?,imp2?) = imp1.imp2;
+#endprocedure
+
+
+#procedure project2CliffordTaste(fline)
+id g5_(`fline') = g_(`fline',sptt{`sptcnt'+5},sptt{`sptcnt'+6},sptt{`sptcnt'+7},sptt{`sptcnt'+8})*e_(sptt{`sptcnt'+5},sptt{`sptcnt'+6},sptt{`sptcnt'+7},sptt{`sptcnt'+8})/fac_(4);
+multiply (
+   + gi_(`fline')
+   + g_(`fline',sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4})*TAU5(`fline')*e_(sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4})/fac_(4)
+   + g_(`fline',sptt`sptcnt')*TAU(`fline',sptt`sptcnt')
+   - g_(`fline',sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4},sptt`sptcnt')*TAU5(`fline',sptt`sptcnt')*e_(sptt{`sptcnt'+1},sptt{`sptcnt'+2},sptt{`sptcnt'+3},sptt{`sptcnt'+4})/fac_(4)
+   - (g_(`fline',sptt`sptcnt',sptt{`sptcnt'+1})-g_(`fline',sptt{`sptcnt'+1},sptt`sptcnt'))*(TAU(`fline',sptt`sptcnt',sptt{`sptcnt'+1})-TAU(`fline',sptt{`sptcnt'+1},sptt`sptcnt'))/4
+   )/4;
+trace4 `fline';
+redefine sptcnt "{`sptcnt'+10}";
+.sort;
+
+id TAU(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,spt3?,spt4?) = d_(spt3,spt4);
+id TAU(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,spt3?,imp?) = imp(spt3);
+id TAU(fl1?,spt1?,spt2?)*DO4v(spt1?,spt2?,imp1?,imp2?) = imp1.imp2;
 #endprocedure
 
 

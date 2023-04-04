@@ -26,51 +26,43 @@ GTOOL       = build_graphs.py
 
 # Local fields considered
 # CAVEAT: check signs of GammaGamma5 operators!
-P5 = qSigmaFQ \
-   qSigmaFtildeQ \
-   qGammaD2lrQ qGammaGamma5FtildeQ \
-   qGammaGamma5D2lrQ qGammaFtildeQ DFFtilde DFFtildenO4 \
-   qSigmaD2lrQ qFQ qGamma5FtildeQ qSigmaDlr2Q qDlDQ
+P5 = 
 
-P4 = trF2 trFFtilde qDlrQ qGamma5DlrQ qDGammalrQ 
+P4 =
 
-P3 = S P V A T 
+P3 =
 
-dP5 = $(addprefix d2, $(P3)) \
-   \
-   \
-   d2VnO4 \
-   d2AnO4 gradFFtilde \
-   d2TnO4 
+dP5 = 
 
-dP4 = gradP gradV rotA
-#divT
+dP4 =
 
 # EOM vanishing operators -> needed for background field method [D0 = Dslash+m]
-Peom = qD0lrQ qGamma5D0lrQ qGammaD0lrQ qGammaGamma5D0lrQ qSigmaD0lrQ \
-   qD0lr2Q            qD02lrQ \
-   qGamma5D0lr2Q      qGamma5D02lrQ \
-   qGammaD0lr2Q       qGammaD02lrQ       gradqD0lrQ       qDD0lrQ \
-   qGammaGamma5D0lr2Q qGammaGamma5D02lrQ gradqGamma5D0lrQ qGamma5DD0lrQ \
-   qSigmaD0lr2Q       qSigmaD02lrQ       gradqGammaD0lrQ  qGammaDD0lrQ 
+
+Peom4 =
+
+Peom5 =
+
+Peom =
       
 
 # Operators considered
-OPS_F4 = PsiPsi2 PsiTPsi2 PsiGammaPsi2 PsiGamma5Psi2 PsiGammaTPsi2 \
-   PsiGamma5TPsi2 PsiGammaGamma5Psi2 PsiGammaGamma5TPsi2 PsiSigmaPsi2 \
-   PsiSigmaTPsi2 
+OPS_F4 = 
+#PsiPsi2 PsiTPsi2 PsiGammaPsi2 PsiGamma5Psi2 PsiGammaTPsi2 \
+#   PsiGamma5TPsi2 PsiGammaGamma5Psi2 PsiGammaGamma5TPsi2 PsiSigmaPsi2 \
+#   PsiSigmaTPsi2 
 
-O6 = DFDF_O4 DFDF PsiGammaD3Psi $(OPS_F4) $(addsuffix n,$(OPS_F4)) 
+O6 = DFDF_O4 DFDF PsiGammaD3Psi
+# $(OPS_F4) $(addsuffix n,$(OPS_F4)) 
 
 O5 = PsiSigmaFPsi 
 
 O4 = F2 
 
-O3 = Psi2 
+O3 = Psi2
 
 # EOM vanishing operators [or required building blocks]
 # -> needed for background field method [D0 = Dslash+m]
-Oeom54 = PsiD0Psi PsiD02Psi 
+Oeom54 = PsiD0Psi PsiD02Psi
 
 Oeom6 = DF2_O4 PsiD03Psi PsiGammaDFPsi PsiD2D0Psi Psi[DslashD2]Psi
 
@@ -88,7 +80,7 @@ Ops    = $(O3) $(O4) $(O5) $(O6)
 Pops_contact = $(P3)
 
 # compute contact terms only for mass-dimension 5 operators and below
-Ops_contact = $(O5)
+Ops_contact = $(O5) PsiD02Psi
 #$(O3) $(O4) $(O5)
 
 # List of all (currently) computed 1PI graphs, with external fields:
@@ -169,9 +161,9 @@ $(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossde
 $(foreach graph, $(GRAPHSo_TL), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), O, $(_op), none ))))
 
 $(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdep1PI, $(graph), P, none, $(_op) ))))
-$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops), $(eval $(call crossdep1PI, $(graph), O, $(_op), none ))))
+$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI, $(graph), O, $(_op), none ))))
 $(foreach graph, $(GRAPHSoo), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdep1PI, $(graph), OO, $(_o), $(_p) )))))
-$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(eval $(call crossdep1PI, $(graph), OP, $(_o), $(_p) )))))
+$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(eval $(call crossdep1PI, $(graph), OP, $(_o), $(_p) )))))
 
 # hacks to implement dependence of up to two operator insertions (the second
 # insertion is supposed to be either from the action or form of a local field)
@@ -194,9 +186,9 @@ $(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops_TL), $(eval $(call crossdepRe
 $(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), O, $(_op), none ))))
 
 $(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdepRes, $(graph), P, none, $(_op) ))))
-$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops), $(eval $(call crossdepRes, $(graph), O, $(_op), none ))))
+$(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdepRes, $(graph), O, $(_op), none ))))
 $(foreach graph, $(GRAPHSoo), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdepRes, $(graph), OO, $(_o), $(_p) )))))
-$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(eval $(call crossdepRes, $(graph), OP, $(_o), $(_p) )))))
+$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(eval $(call crossdepRes, $(graph), OP, $(_o), $(_p) )))))
 
 # allows to choose the desired n-point function according to name and then
 # generate everything according to dependencies/, $(_o)_$(_p).UVonly.1PI)))
@@ -204,6 +196,6 @@ $(GRAPHSp_TL):  %: $(addprefix results/P/%/none_, $(addsuffix .res, $(Pops_TL)))
 $(GRAPHSo_TL):  %: $(addprefix results/O/%/, $(addsuffix _none.res, $(Ops_TL)))
 
 $(GRAPHSp):     %: $(addprefix results/P/%/none_, $(addsuffix .UVonly.res, $(Pops)))
-$(GRAPHSo):     %: $(foreach _o, $(Ops), $(addprefix results/O/%/, $(addsuffix _none.UVonly.res, $(_o))))
-$(GRAPHSoo):    %: $(foreach _o, $(Ops_contact), $(foreach _p, $(Ops_contact), $(addprefix results/OO/%/, $(_o)_$(_p).UVonly.res)))
-$(GRAPHSop):    %: $(foreach _o, $(Ops), $(foreach _p, $(Pops_contact), $(addprefix results/OP/%/, $(_o)_$(_p).UVonly.res)))
+$(GRAPHSo):     %: $(foreach _o, $(Ops_TL), $(addprefix results/O/%/, $(addsuffix _none.UVonly.res, $(_o))))
+$(GRAPHSoo):    %: $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(addprefix results/OO/%/, $(_o)_$(_p).UVonly.res)))
+$(GRAPHSop):    %: $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(addprefix results/OP/%/, $(_o)_$(_p).UVonly.res)))

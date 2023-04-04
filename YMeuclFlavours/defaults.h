@@ -40,8 +40,6 @@ CFunction Pbuffer,Test;
 CTensor DO4v(symmetric);
 
 
-***** Operator flavours *****
-CFunction OPF;
 
 ** Mathematical functions / constants
 ** Gamma(m,eps) = Gamma(m+eps)
