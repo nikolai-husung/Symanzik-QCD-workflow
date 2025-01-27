@@ -14,7 +14,7 @@
 # (system specific) parameters
 FORM        = form
 FORM_PATH   = YMeuclFlavours
-QGRAF       = ~/QGRAF/qgraf
+QGRAF       = ~/codes/QGRAF/qgraf
 
 FLAG        =  -D ALG=1 -D UVonly=1
 MODEL       = QCD
@@ -46,25 +46,33 @@ Peom =
       
 
 # Operators considered
-OPS_F4 = 
-#PsiPsi2 PsiTPsi2 PsiGammaPsi2 PsiGamma5Psi2 PsiGammaTPsi2 \
-#   PsiGamma5TPsi2 PsiGammaGamma5Psi2 PsiGammaGamma5TPsi2 PsiSigmaPsi2 \
-#   PsiSigmaTPsi2 
+OPS_F4 = PsiGammaTPsi2 PsiGammaPsi2 PsiGammaGamma5TPsi2 PsiGammaGamma5Psi2 \
+   PsiGammaTau5TPsi2 PsiGammaTau5Psi2 PsiGammaGamma5Tau5TPsi2 \
+   PsiGammaGamma5Tau5Psi2 PsiTauTPsi2 PsiTauPsi2 PsiTauTau5TPsi2 \
+   PsiTauTau5Psi2 PsiGamma5TauTPsi2 PsiGamma5TauPsi2 PsiGamma5TauTau5TPsi2 \
+   PsiGamma5TauTau5Psi2 PsiGammaTigmaTPsi2 PsiGammaTigmaPsi2 \
+   PsiGammaGamma5TigmaTPsi2 PsiGammaGamma5TigmaPsi2 PsiGigmaTauTPsi2 \
+   PsiGigmaTauPsi2 PsiGigmaTauTau5TPsi2 PsiGigmaTauTau5Psi2 \
+   PsiGammaTigmaTPsi2nO4 PsiGammaTigmaPsi2nO4 PsiGammaGamma5TigmaTPsi2nO4 \
+   PsiGammaGamma5TigmaPsi2nO4 PsiGigmaTauTPsi2nO4 PsiGigmaTauPsi2nO4 \
+   PsiGigmaTauTau5TPsi2nO4 PsiGigmaTauTau5Psi2nO4
 
-O6 = DFDF_O4 DFDF PsiGammaD3Psi
+O6 = DFDF_O4 DFDF PsiGammaD3Psi $(OPS_F4)
 # $(OPS_F4) $(addsuffix n,$(OPS_F4)) 
 
-O5 = PsiSigmaFPsi 
+O5 = PsiGigmaFPsi
+# PsiGamma5TauTau5D2Psi PsiGamma5TauTau5D2lrPsi PsiGigmaGamma5TauTau5FPsi
 
 O4 = F2 
 
 O3 = Psi2
+# PsiGamma5TauTau5Psi
 
 # EOM vanishing operators [or required building blocks]
 # -> needed for background field method [D0 = Dslash+m]
-Oeom54 = PsiD0Psi PsiD02Psi
+Oeom54 = PsiD0Psi PsiD02Psi PsiGamma5TauTau5D02Psi PsiGammaGamma5Tau5DD0lrPsi PsiTauDD0Psi
 
-Oeom6 = DF2_O4 PsiD03Psi PsiGammaDFPsi PsiD2D0Psi Psi[DslashD2]Psi
+Oeom6 = DF2_O4 PsiD03Psi PsiGammaDFPsi PsiD2D0Psi 
 
 Oeom = $(Oeom6) $(Oeom54)
 
@@ -80,7 +88,8 @@ Ops    = $(O3) $(O4) $(O5) $(O6)
 Pops_contact = $(P3)
 
 # compute contact terms only for mass-dimension 5 operators and below
-Ops_contact = $(O5) PsiD02Psi
+Ops_contact = PsiGammaGamma5TauDD0lrPsi
+#$(O5) PsiD02Psi
 #$(O3) $(O4) $(O5)
 
 # List of all (currently) computed 1PI graphs, with external fields:
@@ -88,21 +97,21 @@ Ops_contact = $(O5) PsiD02Psi
 #   F = fermion [=quark]
 #   O = operator in the effective action
 #   P = local field
-GRAPHS   = B2 F2 F2B 
+GRAPHS   = B2 F2 F2B
 
-GRAPHSp  = $(addsuffix P, $(GRAPHS) FF FFB) P
+#GRAPHSp  = $(addsuffix P, $(GRAPHS) FF FFB) P
 GRAPHSo  = $(addsuffix O, $(GRAPHS) B3 F4 F2F2)
 GRAPHSoo = $(addsuffix O, $(GRAPHSo))
-GRAPHSop = $(addsuffix OP, $(GRAPHS) FF FFB) OP
+#GRAPHSop = $(addsuffix OP, $(GRAPHS) FF FFB) OP
 
 # the selection between flavour non-singlet and singlet is currently based on
 # the occurrence of FF (this ignores combinations like F3F -> FF3 and other
 # odd numbered variants)
 
 
-GRAPHSp_TL  = $(addsuffix P_TL, $(GRAPHS) FF FFB)
+#GRAPHSp_TL  = $(addsuffix P_TL, $(GRAPHS) FF FFB)
 GRAPHSo_TL  = $(addsuffix _TL, $(GRAPHSo))
-GRAPHSop_TL = $(addsuffix OP_TL, $(GRAPHS) FF FFB)
+#GRAPHSop_TL = $(addsuffix OP_TL, $(GRAPHS) FF FFB)
 
 
 # Computes the desired Green's function $(OBS) for a specified target
@@ -113,17 +122,17 @@ _flag = $(FLAG)
 #all: onepi
 
 # Setup required directories if they are missing.
-$(shell mkdir -p $(addprefix P/, $(GRAPHSp) $(GRAPHSp_TL)))
+#$(shell mkdir -p $(addprefix P/, $(GRAPHSp) $(GRAPHSp_TL)))
 $(shell mkdir -p $(addprefix O/, $(GRAPHSo) $(GRAPHSo_TL)))
 $(shell mkdir -p $(addprefix OO/, $(GRAPHSoo)))
-$(shell mkdir -p $(addprefix OP/, $(GRAPHSop)))
+#$(shell mkdir -p $(addprefix OP/, $(GRAPHSop)))
 $(shell mkdir -p results graphs)
 $(shell cd results; \
-   mkdir -p $(addprefix P/, $(GRAPHSp) $(GRAPHSp_TL)); \
    mkdir -p $(addprefix O/, $(GRAPHSo) $(GRAPHSo_TL)); \
    mkdir -p $(addprefix OO/, $(GRAPHSoo)); \
-   mkdir -p $(addprefix OP/, $(GRAPHSop)); \
    cd ..;)
+#   mkdir -p $(addprefix P/, $(GRAPHSp) $(GRAPHSp_TL)); \
+#   mkdir -p $(addprefix OP/, $(GRAPHSop)); \
 
 graphs/%.1PI: $(MODEL).rules
 	if test $(findstring _TL, $@); then \
@@ -157,13 +166,13 @@ _pos = $(if $(findstring $1,$2),$(call _pos,$1,\
        $(wordlist 2,$(words $2),$2),x $3),$3)
 pos = $(words $(call _pos,$1,$2))
 
-$(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossdep1PI_TL, $(graph), P, none, $(_op) ))))
+#$(foreach graph, $(GRAPHSp_TL), $(foreach _op, $(Pops_TL), $(eval $(call crossdep1PI_TL, $(graph), P, none, $(_op) ))))
 $(foreach graph, $(GRAPHSo_TL), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI_TL, $(graph), O, $(_op), none ))))
 
-$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdep1PI, $(graph), P, none, $(_op) ))))
+#$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdep1PI, $(graph), P, none, $(_op) ))))
 $(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdep1PI, $(graph), O, $(_op), none ))))
 $(foreach graph, $(GRAPHSoo), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdep1PI, $(graph), OO, $(_o), $(_p) )))))
-$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(eval $(call crossdep1PI, $(graph), OP, $(_o), $(_p) )))))
+#$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(eval $(call crossdep1PI, $(graph), OP, $(_o), $(_p) )))))
 
 # hacks to implement dependence of up to two operator insertions (the second
 # insertion is supposed to be either from the action or form of a local field)
@@ -182,20 +191,20 @@ $(addprefix $(addprefix results/, $(addsuffix /, $(addprefix $(2)/, $(1) ) )), $
 endef
 
 
-$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), P, none, $(_op) ))))
+#$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops_TL), $(eval $(call crossdepResTL, $(graph), P, none, $(_op) ))))
 $(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdepResTL, $(graph), O, $(_op), none ))))
 
-$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdepRes, $(graph), P, none, $(_op) ))))
+#$(foreach graph, $(GRAPHSp), $(foreach _op, $(Pops), $(eval $(call crossdepRes, $(graph), P, none, $(_op) ))))
 $(foreach graph, $(GRAPHSo), $(foreach _op, $(Ops_TL), $(eval $(call crossdepRes, $(graph), O, $(_op), none ))))
 $(foreach graph, $(GRAPHSoo), $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(eval $(call crossdepRes, $(graph), OO, $(_o), $(_p) )))))
-$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(eval $(call crossdepRes, $(graph), OP, $(_o), $(_p) )))))
+#$(foreach graph, $(GRAPHSop), $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(eval $(call crossdepRes, $(graph), OP, $(_o), $(_p) )))))
 
 # allows to choose the desired n-point function according to name and then
 # generate everything according to dependencies/, $(_o)_$(_p).UVonly.1PI)))
-$(GRAPHSp_TL):  %: $(addprefix results/P/%/none_, $(addsuffix .res, $(Pops_TL)))
+#$(GRAPHSp_TL):  %: $(addprefix results/P/%/none_, $(addsuffix .res, $(Pops_TL)))
 $(GRAPHSo_TL):  %: $(addprefix results/O/%/, $(addsuffix _none.res, $(Ops_TL)))
 
-$(GRAPHSp):     %: $(addprefix results/P/%/none_, $(addsuffix .UVonly.res, $(Pops)))
+#$(GRAPHSp):     %: $(addprefix results/P/%/none_, $(addsuffix .UVonly.res, $(Pops)))
 $(GRAPHSo):     %: $(foreach _o, $(Ops_TL), $(addprefix results/O/%/, $(addsuffix _none.UVonly.res, $(_o))))
 $(GRAPHSoo):    %: $(foreach _o, $(Ops_contact), $(foreach _p, $(wordlist 1, $(call pos, $(_o), $(Ops_contact)), $(Ops_contact)), $(addprefix results/OO/%/, $(_o)_$(_p).UVonly.res)))
-$(GRAPHSop):    %: $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(addprefix results/OP/%/, $(_o)_$(_p).UVonly.res)))
+#$(GRAPHSop):    %: $(foreach _o, $(Ops_TL), $(foreach _p, $(Pops_contact), $(addprefix results/OP/%/, $(_o)_$(_p).UVonly.res)))

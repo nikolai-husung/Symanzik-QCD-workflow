@@ -48,9 +48,12 @@ Index G5=0;
 Autodeclare Index fl=D;
 
 ** fermion flavour tensor
-CTensor Tau;
+CTensor Tau, TLOOP;
 Index T5=0;
 Autodeclare Index ti=4;
+Index tloop=4;
+
+CFunction OPF;
 
 ** Set counter for fermion line and flavour indices
 #define flcnt "20"
@@ -60,8 +63,8 @@ Autodeclare Index ti=4;
 #procedure qgraf2form
 
 ** Enforce energy momentum conservation on external momenta
-id ext(field?!{anchor,anchor2,src},imp?,fl?,ti?) = ext(field,imp,fl,ti)*Pbuffer(imp);
 id ext(field?{anchor,anchor2},imp?,fl?,ti?) = ext(field,fl,ti)*replace_(imp,ZERO);
+id ext(field?!{anchor,anchor2,src},imp?,fl?,ti?) = ext(field,imp,fl,ti)*Pbuffer(imp);
 
 
 *** !!!!! check this line !!!!! also whether PP would choose always the same ext. field!
@@ -91,6 +94,7 @@ id ext(field?!{aquark,quark,aquark2,quark2},?args) = 1;
 
 
 #include feynmanRules/`o'.h
+
 if(match(vert(?args,anchor(?args2)))) discard;
 argument vert;
    id anchor2(?args) = anchor(?args);
@@ -106,21 +110,9 @@ if(match(vert(?args1,field?{anchor,anchor2,src}(?args4)))> 0) discard;
 
 
 ***** reduce fermion lines *****
-repeat id FL(fl0?,?args,fl?)*FL(fl?,?args2) = FL(fl0,?args,?args2);
-repeat id Tau(ti0?,?args,ti1?)*Tau(ti1?,?args2) = Tau(ti0,?args,?args2);
+repeat id FL(fl0?,?args,fl?)*FL(fl?,?args2) = FL(fl0,?args,?args2)*replace_(fl,fl0);
+repeat id Tau(ti0?,?args,ti?)*Tau(ti?,?args2) = Tau(ti0,?args,?args2)*replace_(ti,ti0);
 
-if(match(Tau(ti?,?args,ti?)));
-   id Tau(ti?,?args,ti?) = g_(titest,?args);
-   id g_(titest,T5) = g5_(titest);
-   trace4 titest;
-endif;
-
-*** only correct at 1-loop 1/eps order due to error of O(eps) in this step ***
-if(match(FL(fl?,?args,fl?)));
-   id FL(ti?,?args,ti?) = g_(fltest,?args);
-   id g_(fltest,G5) = g5_(fltest);
-   trace4 fltest;
-endif;
 #endprocedure
 
 

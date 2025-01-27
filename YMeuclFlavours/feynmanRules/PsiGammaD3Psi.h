@@ -42,7 +42,7 @@
 #enddo
 
 #do dummy=1,1
-   id,once vert(field1?{aquark,aquark2}(p?,alpha?,cf1?,fl1?,ti1?),field2?{quark,quark2}(q?,beta?,cf2?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,b?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,c?,fl4?,ti4?),field5?{gluon,bgf}(t?,mu?,d?,fl5?),anchor(?args)) = (
+   id,once vert(field1?{aquark,aquark2}(p?,alpha?,cf1?,fl1?,ti1?),field2?{quark,quark2}(q?,beta?,cf2?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,b?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,c?,fl4?,ti4?),field5?{gluon,bgf}(t?,mu?,d?,fl5?,ti5?),anchor(?args)) = (
       + TC(b,cf1,cf`cfcnt')*TC(c,cf{`cfcnt'+1},cf2)*TC(d,cf`cfcnt',cf{`cfcnt'+1})
       + TC(b,cf1,cf`cfcnt')*TC(c,cf`cfcnt',cf{`cfcnt'+1})*TC(d,cf{`cfcnt'+1},cf2)
       + TC(b,cf`cfcnt',cf2)*TC(c,cf1,cf{`cfcnt'+1})*TC(d,cf{`cfcnt'+1},cf`cfcnt')
@@ -53,7 +53,7 @@
 
    redefine cfcnt "{`cfcnt'+2}";
    redefine sptcnt "{`sptcnt'+1}";
-   if(match(vert(field1?{aquark,aquark2}(p?,alpha?,cf1?,fl1?,ti1?),field2?{quark,quark2}(q?,beta?,cf2?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,b?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,c?,fl4?,ti4?),field5?{gluon,bgf}(t?,mu?,d?,fl5?),anchor(?args)))>0);
+   if(match(vert(field1?{aquark,aquark2}(p?,alpha?,cf1?,fl1?,ti1?),field2?{quark,quark2}(q?,beta?,cf2?,fl2?,ti2?),field3?{gluon,bgf}(r?,gamma?,b?,fl3?,ti3?),field4?{gluon,bgf}(s?,delta?,c?,fl4?,ti4?),field5?{gluon,bgf}(t?,mu?,d?,fl5?,ti5?),anchor(?args)))>0);
       redefine dummy "0";
    endif;
    .sort;

@@ -15,7 +15,6 @@ FLAVOUR_SINGLET = not FIELDS.endswith("n")
 if not FLAVOUR_SINGLET:
    FIELDS = FIELDS[:-1]
 
-
 def a_quark():
    i = 0
    while True:
@@ -81,11 +80,11 @@ loops = int(sys.argv[4])
 
 PATH = "QGRAF/"
 TARGET = sys.argv[5]
-QGRAF = "~/QGRAF/qgraf"
+QGRAF = "~/codes/QGRAF/qgraf"
 
 # Prepare qgraf.dat
 f = open(PATH+"qgraf.dat","w")
-f.write("""output= 'YMgraphs' ;
+f.write("""output= '%s' ;
 
 style= 'toform.sty' ;
 
@@ -98,15 +97,17 @@ loops= %i;
 
 loop_momentum= k;
 options = %s;
+
 true = vsum[ med, 0, 0];
 true = bridge[ gluon, 0, 0] ;
 true = bridge[ quark, 0, 0] ;
-"""%(MODEL,ifields,ofields,loops,""))
+true = bridge[ quark2, 0, 0] ;
+"""%(FIELDS,MODEL,ifields,ofields,loops,""))
 f.close()
 
 # Call QGRAF
 try:
-   os.remove(PATH+"YMgraphs")
+   os.remove(PATH+FIELDS)
 except OSError:
    pass
 
@@ -114,7 +115,7 @@ os.system("""cd %s ;
 %s """%(PATH, QGRAF))
 
 # Translate QGRAF output into better indices
-f = open(PATH+"YMgraphs", "r")
+f = open(PATH+FIELDS, "r")
 text = f.read()
 f.close()
 

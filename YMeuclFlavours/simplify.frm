@@ -5,7 +5,7 @@
 Format mathematica;
 
 Index A,B,C,E,kappa,lambda;
-Auto Index spt;
+Auto Index spt=4;
 
 #include defaults.h
 #include qgraf2form.h
@@ -26,10 +26,12 @@ Local loop =
 ;
 
 Local tl = 
-#if((`name'!="P") && (`name'!="OP") && (`name'!="OO") && (`name'!="B2OO") && (`name'!="B3OO") && (`name'!="F2OO") && (`name'!="F2BOO") && (`name'!="F2F2OO") && (`name'!="F4OO") && (`name'!="B2OP") && (`name'!="F2OP") && (`name'!="F2BOP") && (`name'!="FFOP") && (`name'!="FFBOP"))
+#if((`name'!="P") && (`name'!="OP") && (`name'!="OO") && (`name'!="B2OO") && (`name'!="B3OO") && (`name'!="F2OO") && (`name'!="F2BOO") && (`name'!="F2F2OO") && (`name'!="F4OO") && (`name'!="B2OP") && (`name'!="F2OP") && (`name'!="F2BOP") && (`name'!="FFOP") && (`name'!="FFBOP") && (`name'!="O2") && (`name'!="B2O2") && (`name'!="B3O2") && (`name'!="F2O2") && (`name'!="F2BO2") && (`name'!="F2F2O2") && (`name'!="F4O2"))
 #include ../`cnt'/`name'_TL/`o'_`o2'.1PI
 #endif
 ;
+
+id DO4v(spt1?,spt2?,spt3?)*DO4v(spt1?,spt4?,spt5?) = DO4v(spt2,spt3,spt4,spt5);
 
 repeat;
 id q?evectors[n](spt?) = d_(spt,indices[n]);
@@ -62,20 +64,33 @@ endargument;
 
 
 #call project2Clifford(fline1)
-#call project2Clifford(fline2)
+Contract;
+#call project2Clifford(fline3)
+Contract;
 
 
 #call project2CliffordTaste(tiline1)
-#call project2CliffordTaste(tiline2)
-
 Contract;
+#call project2CliffordTaste(tiline3)
+Contract;
+
+id DO4v(spt1?,spt2?,spt3?)*DO4v(spt1?,spt4?,spt5?) = DO4v(spt2,spt3,spt4,spt5);
 
 id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);
 id DO4v(spt?,spt?,spt1?,imp?) = imp(spt1);
 id DO4v(spt?,spt?,imp1?,imp2?) = imp1.imp2;
 id DO4v(spt1?,spt2?,spt3?,spt4?)*e_(spt1?,spt2?,spt5?,spt6?) = 0;
 
+id DO4v(spt1?,spt2?,spt3?)*e_(spt1?,spt2?,spt5?,spt6?) = 0;
+
+Contract;
+
+id e_(spt?,spt1?,spt2?,spt3?)*e_(spt?,spt1?,spt2?,spt3?) = fac_(4);
+
 #call handlePermutations
+#call handleIndices
+
+id DO4v(imp1?,imp2?,imp3?,imp4?) = sum_(sptt0,1,4,imp1(sptt0)*imp2(sptt0)*imp3(sptt0)*imp4(sptt0));
 
 id DenomConst(m?,n?) = Denom(m,n);
 repeat;
@@ -84,7 +99,6 @@ endrepeat;
 id Denom(m?,n?) = (1/m)^n;
 
 id D = 4;
-id i_ = I;
 
 .sort;
 Local temp = loop + (`nF'*`dZF' + `nB'*`dZg' - `ng'*`dZg')*tl;
@@ -104,6 +118,7 @@ if(count(n,1)!=1) discard;
 id n = 1;
 
 id ext(?args) = 1;
+id i_ = I;
 Format mathematica;
 bracket PERM;
 .sort;

@@ -15,14 +15,11 @@ Local diagrams =
 #include ../../graphs/`name'.1PI
 ;
 
-
 #call qgraf2form
 
-.sort;
-
-*** actually prepareDimReg and dimReg may be used universally with Feynman parameters...
-#call prepareDimReg(k1)
-#call dimReg(k1)
+*** Deal with O(4) breaking involving 3-index Kroneckers.
+id DO4v(spt1?,spt2?,spt3?)*DO4v(spt1?,spt4?,spt5?) = DO4v(spt2,spt3,spt4,spt5);
+id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);
 
 
 id FL(fl1?,?args,fl2?) = g_(fl1,?args)*FL(fl1,fl2);
@@ -39,10 +36,26 @@ if(match(FL(fl?,fl?))>0);
    trace4 floop;
 endif;
 
+** Repeat the analogous step for tastes, but D=4 is exact.
+id Tau(ti1?,?args,ti2?) = g_(ti1,?args)*Tau(ti1,ti2);
+id g_(ti?,T5) = g5_(ti);
+if(match(Tau(ti?,ti?))>0);
+   id Tau(ti?,ti?) = replace_(ti,tloop)*TLOOP(tloop);
+   trace4 tloop;
+endif;
+
+*** Deal with O(4) breaking involving 3-index Kroneckers.
+id DO4v(spt1?,spt2?,spt3?)*DO4v(spt1?,spt4?,spt5?) = DO4v(spt2,spt3,spt4,spt5);
+
 id DO4v(spt?,spt?,spt1?,spt2?) = d_(spt1,spt2);
 id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?,spt5?,spt6?) = 0;
 id e_(spt1?,spt2?,spt3?,spt4?)*DO4v(spt1?,spt2?) = 0;
+
 .sort;
+
+*** actually prepareDimReg and dimReg may be used universally with Feynman parameters...
+#call prepareDimReg(k1)
+#call dimReg(k1)
 
 ** CHECK up to which O(eps^n) this is correct!
 #call Gammas

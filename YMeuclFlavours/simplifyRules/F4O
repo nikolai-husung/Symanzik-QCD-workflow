@@ -8,5 +8,5 @@ Set extIndices: sptTestDUMMY;
 *--#[ preparations :
 ** CAVEAT: currently only fline1 != fline2 are allowed with fline1=fline4 and fline2=fline3
 id ext(fle1,fle3) = 0;
-multiply replace_(impe1,p,impe2,q,impe3,r,impe4,s,cfe1,A,cfe2,B,cfe3,C,cfe4,E,fle1,fline1,fle2,fline2,fle3,fline2,fle4,fline1)*Test(0);
+multiply replace_(impe1,p,impe2,q,impe3,r,impe4,s,cfe1,A,cfe2,B,cfe3,C,cfe4,E,fle1,fline1,fle2,fline2,fle3,fline3,fle4,fline4,tie1,tiline1,tie2,tiline2,tie3,tiline3,tie4,tiline4)*Test(0);
 *--#] preparations :

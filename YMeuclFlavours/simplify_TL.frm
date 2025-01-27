@@ -52,14 +52,13 @@ id Denom(m?,n?)*Denom(m?,l?) = Denom(m,n+l);
 endrepeat;
 id Denom(m?,n?) = (1/m)^n;
 
-id i_ = I;
 
 #call project2Clifford(fline1)
-#call project2Clifford(fline2)
+#call project2Clifford(fline3)
 
 
 #call project2CliffordTaste(tiline1)
-#call project2CliffordTaste(tiline2)
+#call project2CliffordTaste(tiline3)
 
 Contract;
 
@@ -68,9 +67,16 @@ id DO4v(spt?,spt?,spt1?,imp?) = imp(spt1);
 id DO4v(spt?,spt?,imp1?,imp2?) = imp1.imp2;
 id DO4v(spt1?,spt2?,spt3?,spt4?)*e_(spt1?,spt2?,spt5?,spt6?) = 0;
 
+id DO4v(spt1?,spt2?,spt3?)*e_(spt1?,spt2?,spt5?,spt6?) = 0;
+
+Contract;
+id e_(spt?,spt1?,spt2?,spt3?)*e_(spt?,spt1?,spt2?,spt3?) = fac_(4);
+
 #call handlePermutations
+#call handleIndices
 
 id ext(?args) = 1;
+id i_ = I;
 .sort;
 Format mathematica;
 bracket PERM;

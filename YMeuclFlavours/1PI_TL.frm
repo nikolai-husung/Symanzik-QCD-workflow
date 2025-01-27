@@ -31,6 +31,14 @@ Local diagrams =
 #enddo
 id FL(fl1?,?args,fl2?) = g_(fl1,?args)*FL(fl1,fl2);
 
+#do dummy=1,1
+   id,once Tau(?args,T5,?args2) = e_(spt`sptcnt',spt{`sptcnt'+1},spt{`sptcnt'+2},spt{`sptcnt'+3})*Tau(?args,spt`sptcnt',spt{`sptcnt'+1},spt{`sptcnt'+2},spt{`sptcnt'+3},?args2)/fac_(4);
+   redefine sptcnt "{`sptcnt'+4}";
+   if(match(Tau(?args,T5,?args2))) redefine dummy "0";
+   .sort;
+#enddo
+id Tau(ti1?,?args,ti2?) = g_(ti1,?args)*Tau(ti1,ti2);
+
 Contract;
 
 
@@ -65,7 +73,7 @@ id Power(m?,n?) = Omega^m*Power(0,n);
 #endif
 
 
-Print +s;
+**Print +s;
 .sort;
 
 id d_(col1?,col2?) = DO4v(col1,col2);

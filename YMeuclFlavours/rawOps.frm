@@ -230,6 +230,13 @@ D(spt0)*Psibar(fl0,imp0,cf0)*FL(fl0,G5,spt1,fl1)*Psi(fl1,imp3,cf3)*e_(kappa,lamb
 - Psibar(fl0,imp0,cf0)*(D0l(imp1,cf0,cf1)*Dcovfl(imp2,spt0,cf1,cf2)*FL(fl0,kappa,fl1)-FL(fl0,kappa,fl1)*Dcovf(imp2,spt0,cf0,cf1)*D0(imp1,cf1,cf2))*Psi(fl1,imp3,cf2)*DO4v(spt0,lambda)
 *--#] qGammaDD0lrQ:
 
+*--#[ PsiD2D0Psi:
+Psibar(fl0,imp0,cf0)*(Dcovf(imp1,spt0,cf1,cf2)*Dcovf(imp2,spt1,cf3,cf4)*D0(imp3,cf5,cf6)-D0l(imp1,cf1,cf2)*Dcovfl(imp2,spt0,cf3,cf4)*Dcovfl(imp3,spt1,cf5,cf6))*FL(fl0,fl1)*Psi(fl1,imp4,cf7)*DO4v(cf0,cf1)*DO4v(cf2,cf3)*DO4v(cf4,cf5)*DO4v(cf6,cf7)*DO4v(spt0,spt1)/2
+*--#] PsiD2D0Psi:
+
+*--#[ PsiTauDD0Psi:
+Psibar(fl0,imp0,cf0)*Dcovf(imp1,spt0,cf1,cf2)*D0(imp3,cf3,cf4)*FL(fl0,fl1)*Psi(fl1,imp4,cf5)*DO4v(cf0,cf1)*DO4v(cf2,cf3)*DO4v(cf4,cf5)*DO4v(spt0,kappa)
+*--#] PsiTauDD0Psi:
 
 **** Needed to generate pure QCD Feynman rules ****
 *--#[ QCD:
